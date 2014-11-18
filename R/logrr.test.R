@@ -11,7 +11,7 @@
 #' @references Waller, L.A. and Gotway, C.A. (2005).  Applied Spatial Statistics for Public Health Data.  Hoboken, NJ: Wiley.  Kelsall, Julia E., and Peter J. Diggle. "Non-parametric estimation of spatial variation in relative risk." Statistics in Medicine 14.21-22 (1995): 2335-2342.
 #' @examples 
 #' data(grave)
-#' renv = logrr.env(grave, nsim = 9)
+#' renv = logrr(grave, nsim = 9)
 #' logrr.test(renv)
 
 logrr.test = function(x)

@@ -17,7 +17,7 @@
 #' @references Waller, L.A. and Gotway, C.A. (2005).  Applied Spatial Statistics for Public Health Data.  Hoboken, NJ: Wiley.
 #' @examples 
 #' data(grave)
-#' renv = logrr.env(grave, nsim = 9)
+#' renv = logrr(grave, nsim = 9)
 #' tol = tolenv(renv, level = 0.8)
 #' image(tol, col = c("blue", "white", "orange"), asp = 1)
 #' contour(renv, add = TRUE)

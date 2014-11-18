@@ -21,6 +21,14 @@
 #' 
 qnn.test = function(x, q = 5, nsim = 499, case = 2)
 {
+  
+  if(!is.element("ppp", class(x))) stop("x must be a ppp object")
+  if(is.null(x$marks)) stop("x must be marked as cases or controls")
+  if(!is.factor(x$marks)) stop("The marks(x) must be a factor")
+  nlev = length(levels(x$marks))
+  if(case < 1 || case > nlev) stop("case must be an integer between 1 and length(levels(x$marks))")
+  if(nsim < 0 | !is.finite(nsim)) stop("nsim must be a non-negative integer")
+  
   # the case and index of cases
   casename = levels(x$marks)[case]
   idxcase = which(x$marks == casename)

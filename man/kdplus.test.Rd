@@ -16,8 +16,8 @@ A list providing the observed test statistic (\code{kdplus}) and the estimate p-
 }
 \examples{
 data(grave)
-env = kd.env(grave, nsim = 19)
-kdplus.test(env)
+kdsim = kdest(grave, nsim = 19)
+kdplus.test(kdsim)
 }
 \author{
 Joshua French

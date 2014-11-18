@@ -16,7 +16,7 @@ A list providing the observed test statistic (\code{islogrr}) and the estimated 
 }
 \examples{
 data(grave)
-renv = logrr.env(grave, nsim = 9)
+renv = logrr(grave, nsim = 9)
 logrr.test(renv)
 }
 \author{

@@ -3,25 +3,51 @@
 \alias{logrr}
 \title{Log ratio of spatial densities}
 \usage{
-logrr(f, g)
+logrr(x, case = 2, nsim = 0, sigma = NULL, sigmacon = sigma, ...,
+  weights = NULL, edge = TRUE, varcov = NULL, at = "pixels",
+  leaveoneout = TRUE, adjust = 1, diggle = FALSE, nreport = 50)
 }
 \arguments{
-\item{f}{An object from the \code{spdensity} function.  Typically is related to the "cases".}
+\item{x}{Point pattern (object of class "ppp").}
 
-\item{g}{An object from the \code{spdensity} function.  Typically is related to the "controls".}
+\item{case}{The position of the name of the "case" group in levels(x$marks).  The default is 2.}
+
+\item{nsim}{The number of simulated data sets from which to construct the envelopes under the random labeling hypothesis.  Default is 0.}
+
+\item{sigma}{Standard deviation of isotropic Gaussian smoothing kernel for cases. Either a numerical value, or a function that computes an appropriate value of sigma.}
+
+\item{sigmacon}{Standard deviation of isotropic Gaussian smoothing kernel for controls.  Default is the same as \code{sigma}.}
+
+\item{...}{Additional arguments passed to pixellate.ppp and as.mask to determine the pixel resolution, or passed to sigma if it is a function.}
+
+\item{weights}{Optional weights to be attached to the points. A numeric vector, numeric matrix, or an expression.}
+
+\item{edge}{Logical flag: if TRUE, apply edge correction.}
+
+\item{varcov}{Variance-covariance matrix of anisotropic Gaussian kernel. Incompatible with sigma.}
+
+\item{at}{String specifying whether to compute the intensity values at a grid of pixel locations (at="pixels") or only at the points of x (at="points").}
+
+\item{leaveoneout}{Logical value indicating whether to compute a leave-one-out estimator. Applicable only when at="points".}
+
+\item{adjust}{Optional. Adjustment factor for the smoothing parameter.}
+
+\item{diggle}{Logical. If TRUE, use Diggle's edge correction, which is more accurate but slower to compute than the correction described under Details.}
+
+\item{nreport}{How frequently to report progress on the simulation.  Default is 50.}
 }
 \value{
-The function produces an object of the same type as the \code{density.ppp} function from the \code{spatstat} package, with the intensity values replaces by the log ratio of the spatial densities f and g.
+The function produces an object of type \code{logrrenv}.  It's components are similar to those returned by the \code{density.ppp} function from the \code{spatstat} package, with the intensity values replaces by the log ratio of spatial densities of f and g.  Includes an array \code{simr} of dimension c(nx, ny, nsim + 1), where nx and ny are the number of x and y grid points used to estimate the spatial density.  \code{simr[,,1]} is the log ratio of spatial densities for the observed data and the remaining \code{nsim} elements in the third dimension of the array are the log ratios of spatial densities from a new ppp simulated under the random labeling hypothesis.
 }
 \description{
-\code{logrr} computes the log ratio of spatial density functions.  This ratio is within an additive constant of the log relative risk.  The numerator in this ratio is related to the "cases" and the denominator to the "controls".
+\code{logrr} computes envelopes for the log ratio of spatial density functions.  The numerator in this ratio is related to the "cases" and the denominator to the "controls".
 }
 \examples{
 data(grave)
-cases = which(grave$marks == "affected")
-f = spdensity(grave[cases,], sigma = 700)
-g = spdensity(grave[-cases,], sigma = 700)
-contour(logrr(f, g))
+r = logrr(grave)
+plot(r)
+
+rsim = logrr(grave, nsim = 9)
 }
 \author{
 Joshua French

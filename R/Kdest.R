@@ -6,6 +6,7 @@
 #' 
 #' @param x A \code{ppp} object from the \code{spatstat} package with marks for the case and control groups.
 #' @param case The position of the name of the "case" group in levels(x$marks).  The default is 2.
+#' @param nsim An non-negative integer.  Default is 0.  The difference in estimated K functions will be calculated for \code{nsim} data sets generated under the random labeling hypothesis.
 #' @param r Optional. Vector of values for the argument r at which K(r) should be evaluated. Users are advised not to specify this argument; there is a sensible default.
 #' @param breaks This argument is for internal use only.
 #' @param correction Optional. A character vector containing any selection of the options "none", "border", "bord.modif", "isotropic", "Ripley", "translate", "translation", "none", "good" or "best". It specifies the edge correction(s) to be applied.
@@ -23,13 +24,33 @@
 #' data(grave)
 #' kd = kdest(grave)
 #' plot(kd)
+#' kd2 = kdest(grave, nsim = 9)
+#' plot(kd2)
 
-kdest = function(x, case = 2, r=NULL, breaks=NULL, correction=c("border", "isotropic", "Ripley", "translate"), nlarge=3000, domain=NULL, var.approx=FALSE, ratio=FALSE)
+kdest = function(x, case = 2, nsim = 0, r=NULL, breaks=NULL, correction=c("border", "isotropic", "Ripley", "translate"), nlarge=3000, domain=NULL, var.approx=FALSE, ratio=FALSE)
 {
-  cases = which(x$marks == levels(x$marks)[case])
-  K_case = Kest(x[cases, ], r = r, breaks = breaks, correction = correction, nlarge = nlarge,
-                  Domain = domain, var.approx = var.approx, ratio = ratio)
-  K_control = Kest(x[-cases, ], r = r, breaks = breaks, correction = correction, nlarge = nlarge,
-                  domain = domain, var.approx = var.approx, ratio = ratio)
-  eval.fv(K_case - K_control)
+  if(!is.element("ppp", class(x))) stop("x must be a ppp object")
+  if(is.null(x$marks)) stop("x must be marked as cases or controls")
+  if(!is.factor(x$marks)) stop("The marks(x) must be a factor")
+  nlev = length(levels(x$marks))
+  if(case < 1 || case > nlev) stop("case must be an integer between 1 and length(levels(x$marks))")
+  if(nsim < 0 | !is.finite(nsim)) stop("nsim must be a non-negative integer")
+  
+  if(nsim == 0)
+  {
+    out = kd(x, case = case, 
+             r = r, breaks = breaks, correction = correction, 
+             nlarge = nlarge, domain = domain, 
+             var.approx = var.approx, ratio = ratio)
+  }
+  else
+  {
+    out = envelope(x, kd, case = case, nsim = nsim, savefuns = TRUE, 
+                   simulate = expression(rlabel(x, permute = TRUE)), 
+                   r = r, breaks = breaks, correction = correction, 
+                   nlarge = nlarge, domain = domain, 
+                   var.approx = var.approx, ratio = ratio)
+    class(out) <- c(class(out), "kdenv")    
+  }
+  return(out)
 }

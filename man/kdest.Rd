@@ -3,14 +3,16 @@
 \alias{kdest}
 \title{Difference of estimated K functions}
 \usage{
-kdest(x, case = 2, r = NULL, breaks = NULL, correction = c("border",
-  "isotropic", "Ripley", "translate"), nlarge = 3000, domain = NULL,
-  var.approx = FALSE, ratio = FALSE)
+kdest(x, case = 2, nsim = 0, r = NULL, breaks = NULL,
+  correction = c("border", "isotropic", "Ripley", "translate"),
+  nlarge = 3000, domain = NULL, var.approx = FALSE, ratio = FALSE)
 }
 \arguments{
 \item{x}{A \code{ppp} object from the \code{spatstat} package with marks for the case and control groups.}
 
 \item{case}{The position of the name of the "case" group in levels(x$marks).  The default is 2.}
+
+\item{nsim}{An non-negative integer.  Default is 0.  The difference in estimated K functions will be calculated for \code{nsim} data sets generated under the random labeling hypothesis.}
 
 \item{r}{Optional. Vector of values for the argument r at which K(r) should be evaluated. Users are advised not to specify this argument; there is a sensible default.}
 
@@ -39,6 +41,8 @@ This function relies internally on the \code{Kest} and \code{eval.fv} functions 
 data(grave)
 kd = kdest(grave)
 plot(kd)
+kd2 = kdest(grave, nsim = 9)
+plot(kd2)
 }
 \author{
 Joshua French

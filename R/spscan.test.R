@@ -31,6 +31,14 @@
 
 spscan.test = function(x, nsim = 499, case = 2, len = 50, nreport = nsim + 1, maxr = NULL)
 {
+  
+  if(!is.element("ppp", class(x))) stop("x must be a ppp object")
+  if(is.null(x$marks)) stop("x must be marked as cases or controls")
+  if(!is.factor(x$marks)) stop("The marks(x) must be a factor")
+  nlev = length(levels(x$marks))
+  if(case < 1 || case > nlev) stop("case must be an integer between 1 and length(levels(x$marks))")
+  if(nsim < 0 | !is.finite(nsim)) stop("nsim must be a non-negative integer")
+  
   casename = levels(x$marks)[case]
   idxcase = which(x$marks == casename)
   
@@ -61,8 +69,8 @@ spscan.test = function(x, nsim = 499, case = 2, len = 50, nreport = nsim + 1, ma
   
   Tscan = max(T, na.rm = TRUE)
   maxpos = which(T == Tscan, arr.ind = TRUE)
-  maxloc = coords[maxpos[1],]
-  mlcr  = r[maxpos[2]]
+  maxloc = coords[maxpos[1,1],]
+  mlcr  = r[maxpos[1,2]]
   
   # display results if appropriate
   if(nreport <= nsim) cat(paste("sims completed: "))

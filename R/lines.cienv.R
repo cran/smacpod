@@ -10,11 +10,11 @@
 #' @export
 #' @examples 
 #' data(grave)
-#' env = kd.env(grave, nsim = 19)
-#' ci = confenv(env, level = .9)
-#' plot(env, legend = FALSE)
-#' lines(ci)
-#' legend("topleft", legend = c("observed", "average", "max/min", "95% conf. bands"), 
+#' kd = kdest(grave, nsim = 9)
+#' ci = confenv(kd, level = 0.9)
+#' plot(kd, legend = FALSE, main = "")
+#' lines(ci, lty = 2)
+#' legend("topleft", legend = c("observed", "average", "max/min", "90% conf. bands"), 
 #' lty = c(1, 2, 1, 3), col = c("black", "red", "grey", "black"))
 #'
 #' @rdname lines

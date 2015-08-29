@@ -13,6 +13,8 @@
 #' \item{consum}{A dataframe with the contrasts (contrast), test statistic (Tcon), and p-value (pvaluecon) for the test of contrasts.}
 #' @author Joshua French
 #' @import spatstat
+#' @importFrom stats dist
+#' @importFrom utils combn
 #' @export
 #' @references Waller, L.A., and Gotway, C.A. (2005).  Applied Spatial Statistics for Public Health Data.  Hoboken, NJ: Wiley.  Cuzick, J., and Edwards, R. (1990). Spatial clustering for inhomogeneous populations. Journal of the Royal Statistical Society. Series B (Methodological), 73-104.  Alt, K.W., and Vach, W. (1991). The reconstruction of "genetic kinship" in prehistoric burial complexes-problems and statistics. Classification, Data Analysis, and Knowledge Organization, 299-310.
 #' @examples 
@@ -41,7 +43,7 @@ qnn.test = function(x, q = 5, nsim = 499, case = 2)
   maxq = max(q) # largest q
   
   # distances, then ordered
-  D = as.matrix(dist(cbind(x$x, x$y))) #calculate pairwise distances
+  D = as.matrix(stats::dist(cbind(x$x, x$y))) #calculate pairwise distances
   diag(D) = Inf #set diagonal to infinity
   odistq = t(apply(D, 1, order)[1:maxq, ]) #Find maxq nearest neighbors
   
@@ -51,7 +53,7 @@ qnn.test = function(x, q = 5, nsim = 499, case = 2)
   for(i in 1:nsim) Delta[rcases[i,],i] <- 1 #indicate whether observation i in sample i is a case
   Delta[idxcase,nsim + 1] = 1 # cases for observed data
   Tq = matrix(0, nrow = length(q), ncol = nsim + 1) # store test statistics
-  con = combn(1:length(q), 2) #pairwise contrasts
+  con = utils::combn(1:length(q), 2) #pairwise contrasts
   Tcon = matrix(0, nrow = ncol(con), ncol = nsim + 1) # store constrast test statistics
   
   for(i in 1:length(q))

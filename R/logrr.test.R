@@ -16,7 +16,7 @@
 
 logrr.test = function(x)
 {
-  if(max(class(x) == "renv") < 1) stop("x must be an object from the logrr.env function.")
+  if(max(class(x) == "logrrenv") < 1) stop("x must be an object from the logrr function.")
   
   win = x$window
   dim3 = dim(x$simr)[3]

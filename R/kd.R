@@ -25,9 +25,9 @@
 kd = function(x, case = 2, r=NULL, breaks=NULL, correction=c("border", "isotropic", "Ripley", "translate"), nlarge=3000, domain=NULL, var.approx=FALSE, ratio=FALSE)
 {
   cases = which(x$marks == levels(x$marks)[case])
-  K_case = Kest(x[cases, ], r = r, breaks = breaks, correction = correction, nlarge = nlarge,
+  K_case = spatstat::Kest(x[cases, ], r = r, breaks = breaks, correction = correction, nlarge = nlarge,
                 Domain = domain, var.approx = var.approx, ratio = ratio)
-  K_control = Kest(x[-cases, ], r = r, breaks = breaks, correction = correction, nlarge = nlarge,
+  K_control = spatstat::Kest(x[-cases, ], r = r, breaks = breaks, correction = correction, nlarge = nlarge,
                    domain = domain, var.approx = var.approx, ratio = ratio)
-  eval.fv(K_case - K_control)
+  spatstat::eval.fv(K_case - K_control)
 }

@@ -25,10 +25,10 @@
 spdensity = function(x, sigma = NULL, ..., weights=NULL, edge=TRUE, varcov=NULL, at="pixels", 
                        leaveoneout=TRUE, adjust=1, diggle=FALSE)
 {
-  d = density(x = x, sigma = sigma, ..., weights = weights,
+  d = spatstat::density.ppp(x = x, sigma = sigma, ..., weights = weights,
               edge = edge, varcov = varcov, at = at, leaveoneout = leaveoneout,
               adjust = adjust, diggle = diggle)
-  d$const = integral.im(d)
+  d$const = spatstat::integral.im(d)
   d$v <- d$v/d$const
   class(d) <- c(class(d), "spdensity")
   return(d)

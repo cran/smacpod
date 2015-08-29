@@ -5,8 +5,8 @@
 #' The test is performed using the random labeling hypothesis.  The windows are circular and extend from the observed data locations.  The minimum window radius is the minimum distance between cases.  The default upper bound is half the maximum interevent distance.
 #' 
 #' @param x A \code{ppp} object from the \code{spatstat} package with marks for the case and control groups.
-#' @param nsim The number of simulations from which to compute p-value.
 #' @param case The position of the name of the "case" group in levels(x$marks).  The default is 2.
+#' @param nsim The number of simulations from which to compute p-value.
 #' @param len The length of the vector of radii from which to perform the test.
 #' @param nreport The frequency with which to report simulation progress.  The default is \code{nsim+ 1}, meaning no progress will be displayed.
 #' @param maxr The max distance of the vector of radii from which to perform the test.
@@ -18,6 +18,7 @@
 #' \item{r}{The radius of the window of the most likely cluster.}
 #' @author Joshua French
 #' @import spatstat
+#' @importFrom stats dist
 #' @export
 #' @references Waller, L.A. and Gotway, C.A. (2005).  Applied Spatial Statistics for Public Health Data.  Hoboken, NJ: Wiley.  Kulldorff, M. (1997) A spatial scan statistic. Communications in Statistics -- Theory and Methods 26, 1481-1496.
 #' @examples 
@@ -29,7 +30,7 @@
 #' library(plotrix)
 #' draw.circle(out$mlc[1], out$mlc[2], out$r)
 
-spscan.test = function(x, nsim = 499, case = 2, len = 50, nreport = nsim + 1, maxr = NULL)
+spscan.test = function(x, case = 2, nsim = 499, len = 50, nreport = nsim + 1, maxr = NULL)
 {
   
   if(!is.element("ppp", class(x))) stop("x must be a ppp object")
@@ -47,7 +48,7 @@ spscan.test = function(x, nsim = 499, case = 2, len = 50, nreport = nsim + 1, ma
   N1 = length(idxcase)
   # distances between observations
   coords = cbind(x$x, x$y)
-  D = array(as.matrix(dist(coords)), dim = c(N, N)) # matrix without attributes
+  D = array(as.matrix(stats::dist(coords)), dim = c(N, N)) # matrix without attributes
   pD = D[, idxcase]
   minD = min(pD[pD > 0])
   if(is.null(maxr))

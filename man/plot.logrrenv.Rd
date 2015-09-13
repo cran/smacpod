@@ -4,7 +4,7 @@
 \alias{plot.logrrenv}
 \title{Plots object from logrr of class \code{logrrenv}.}
 \usage{
-\method{plot}{logrrenv}(x, ..., conlist = list())
+\method{plot}{logrrenv}(x, ..., conlist = list(), main = "")
 }
 \arguments{
 \item{x}{An object of class logrrenv to be plotted.}
@@ -12,12 +12,14 @@
 \item{...}{Additional graphical parameters passed to the \code{spatstat::image.im} function.  See details.}
 
 \item{conlist}{Additional argument passed to the \code{spatstat::contour.im} function.}
+
+\item{main}{A main title for the plot.  Default is blank.}
 }
 \description{
 Plots object from logrr of class \code{logrrenv}.
 }
 \details{
-An important aspect of this plot is the color argument (\code{col}) used for displaying the regions outside the tolerance envelopes.  If NULL (the implicit default), then the default color palette used by \code{image.im} will be used.  Simpler schemes, e.g., c("blue", "white", "orange") can suffice. See the examples.
+An important aspect of this plot is the color argument (\code{col}) used for displaying the regions outside the tolerance envelopes.  If NULL (the implicit default), then the default color palette used by \code{spatstat::image.im} will be used.  Simpler schemes, e.g., c("blue", "white", "orange") can suffice. See the examples.
 }
 \examples{
 data(grave)
@@ -27,5 +29,10 @@ plot(rsim)
 plot(rsim, col = c("blue", "white", "orange"), ribbon = FALSE, box = FALSE)
 # alternate color scheme
 plot(rsim, col = topo.colors(12))
+}
+\seealso{
+\code{\link[spatstat]{plot.im}}
+
+\code{\link[spatstat]{contour.im}}
 }
 

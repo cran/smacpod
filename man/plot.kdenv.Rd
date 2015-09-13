@@ -4,7 +4,8 @@
 \alias{plot.kdenv}
 \title{Plots object from kdest of class \code{kdenv}.}
 \usage{
-\method{plot}{kdenv}(x, ..., shadecol1 = "grey", shadecol2 = "lightblue")
+\method{plot}{kdenv}(x, ..., shadecol1 = "grey", shadecol2 = "lightblue",
+  main = "", legend = FALSE)
 }
 \arguments{
 \item{x}{An object of class kdenv to be plotted.}
@@ -14,6 +15,10 @@
 \item{shadecol1}{Shade color for max/min envelopes.}
 
 \item{shadecol2}{Shade color for confidence envelopes.}
+
+\item{main}{A main title for the plot.  Default is blank.}
+
+\item{legend}{Logical for whether a legend should automatically be displayed.  Default if \code{FALSE}.}
 }
 \description{
 Plots object from kdest of class \code{kdenv}.
@@ -22,5 +27,8 @@ Plots object from kdest of class \code{kdenv}.
 data(grave)
 kd1 = kdest(grave, nsim = 19, level = 0.9)
 plot(kd1)
+}
+\seealso{
+\code{\link[spatstat]{plot.fv}}
 }
 

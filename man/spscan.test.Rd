@@ -4,8 +4,8 @@
 \alias{spscan.test}
 \title{Spatial Scan Test}
 \usage{
-spscan.test(x, case = 2, nsim = 499, len = 50, nreport = nsim + 1,
-  maxr = NULL)
+spscan.test(x, case = 2, nsim = 499, alpha = 0.1, nreport = nsim + 1,
+  maxd = NULL)
 }
 \arguments{
 \item{x}{A \code{ppp} object from the \code{spatstat} package with marks for the case and control groups.}
@@ -14,32 +14,31 @@ spscan.test(x, case = 2, nsim = 499, len = 50, nreport = nsim + 1,
 
 \item{nsim}{The number of simulations from which to compute p-value.}
 
-\item{len}{The length of the vector of radii from which to perform the test.}
+\item{alpha}{The significance level to determine whether a cluster is signficiant.}
 
 \item{nreport}{The frequency with which to report simulation progress.  The default is \code{nsim+ 1}, meaning no progress will be displayed.}
 
-\item{maxr}{The max distance of the vector of radii from which to perform the test.}
+\item{maxd}{The radius of the largest possible cluster to consider.}
 }
 \value{
 Returns a list with the following components:
-\item{pvalue}{The p-value of the spatial scan test.}
-\item{mlc}{The location of the most likely cluster.}
-\item{r}{The radius of the window of the most likely cluster.}
+\item{coords}{The centroids of the significant clusters.}
+\item{r}{The radii of the window of the significant clusters.}
+\item{p}{The vector of p-values associated with the significant clusters.}
+\item{ppp}{The original ppp object for which the scan test was performed.}
 }
 \description{
 \code{spscan.test} performs the spatial scan test of Kulldorf (1997).
 }
 \details{
-The test is performed using the random labeling hypothesis.  The windows are circular and extend from the observed data locations.  The minimum window radius is the minimum distance between cases.  The default upper bound is half the maximum interevent distance.
+The test is performed using the random labeling hypothesis.  The windows are circular and extend from the observed data locations.  The clusters returned are non-overlapping, ordered from most significant to least significant.  The first cluster is the most likely to be a cluster.  If no significant clusters are found, then the most likely is returned (along with a warning).
 }
 \examples{
 data(grave)
 out = spscan.test(grave)
-plot(grave)
-# draw location of most likely cluster
-# uses function from plotrix package
-library(plotrix)
-draw.circle(out$mlc[1], out$mlc[2], out$r)
+plot(out, main = "")
+# get warning if no significant cluster
+out2 = spscan.test(grave, alpha = 0.01)
 }
 \author{
 Joshua French

@@ -7,7 +7,7 @@
 kdplus.test(x)
 }
 \arguments{
-\item{x}{A \code{kdenv} object from the \code{kdenv} function.}
+\item{x}{A \code{kdenv} object from the \code{kdest} function.}
 }
 \value{
 A list providing the observed test statistic (\code{kdplus}) and the estimate p-value {\code{pvalue}}.
@@ -25,5 +25,8 @@ Joshua French
 }
 \references{
 Waller, L.A. and Gotway, C.A. (2005).  Applied Spatial Statistics for Public Health Data.  Hoboken, NJ: Wiley.  Diggle, Peter J., and Amanda G. Chetwynd. "Second-order analysis of spatial clustering for inhomogeneous populations." Biometrics (1991): 1155-1163.
+}
+\seealso{
+\code{\link{kdest}}
 }
 

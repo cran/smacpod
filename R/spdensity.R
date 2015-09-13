@@ -13,10 +13,11 @@
 #' @param adjust	Optional. Adjustment factor for the smoothing parameter.
 #' @param diggle	Logical. If TRUE, use Diggle's edge correction, which is more accurate but slower to compute than the correction described under Details.
 #' 
-#' @return This function produces an object of the same type as the \code{density.ppp} function from the \code{spatstat} package, with the intensity values scaled so that a true spatial density function is produced.  
+#' @return This function produces an object of class \code{im} from the \code{spatstat} package, in nearly the exact same way as \code{spatstat::density.ppp}.  The difference is that the values are scaled so that a true spatial density function is produced (i.e., the function integrates to 1).  
 #' @author Joshua French
 #' @import spatstat
 #' @export
+#' @seealso \code{\link[spatstat]{density.ppp}}
 #' @references Waller, L.A. and Gotway, C.A. (2005).  Applied Spatial Statistics for Public Health Data.  Hoboken, NJ: Wiley.
 #' @examples 
 #' data(grave)

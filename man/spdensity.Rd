@@ -30,7 +30,7 @@ spdensity(x, sigma = NULL, ..., weights = NULL, edge = TRUE,
 \item{diggle}{Logical. If TRUE, use Diggle's edge correction, which is more accurate but slower to compute than the correction described under Details.}
 }
 \value{
-This function produces an object of the same type as the \code{density.ppp} function from the \code{spatstat} package, with the intensity values scaled so that a true spatial density function is produced.
+This function produces an object of class \code{im} from the \code{spatstat} package, in nearly the exact same way as \code{spatstat::density.ppp}.  The difference is that the values are scaled so that a true spatial density function is produced (i.e., the function integrates to 1).
 }
 \description{
 \code{spdensity} computes a kernel smoothed spatial density function from a point pattern.  This is essentially a slight modification of the \code{density.ppp} function from the \code{spatstat} package, which computes the spatial intensity of a point pattern.
@@ -44,5 +44,8 @@ Joshua French
 }
 \references{
 Waller, L.A. and Gotway, C.A. (2005).  Applied Spatial Statistics for Public Health Data.  Hoboken, NJ: Wiley.
+}
+\seealso{
+\code{\link[spatstat]{density.ppp}}
 }
 

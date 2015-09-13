@@ -28,7 +28,7 @@ kd(x, case = 2, r = NULL, breaks = NULL, correction = c("border",
 \item{ratio}{Logical. If TRUE, the numerator and denominator of each edge-corrected estimate will also be saved, for use in analysing replicated point patterns.}
 }
 \value{
-Returns an \code{fv} object.  See documentation for \code{Kest} function in \code{spatstat} package.
+Returns an \code{fv} object.  See documentation for \code{spatstat::Kest}.
 }
 \description{
 \code{kd} determines the difference in estimated K functions for a set of cases and controls.

@@ -32,7 +32,7 @@ kdest(x, case = 2, nsim = 0, level = 0.95, r = NULL, breaks = NULL,
 \item{ratio}{Logical. If TRUE, the numerator and denominator of each edge-corrected estimate will also be saved, for use in analysing replicated point patterns.}
 }
 \value{
-Returns an \code{fv} object.  See documentation for \code{Kest} function in \code{spatstat} package.
+Returns an \code{fv} object.  See documentation for \code{spatstat::Kest}.
 }
 \description{
 \code{kdest} determines the difference in estimated K functions for a set of cases and controls.
@@ -52,5 +52,8 @@ Joshua French
 }
 \references{
 Waller, L.A. and Gotway, C.A. (2005).  Applied Spatial Statistics for Public Health Data.  Hoboken, NJ: Wiley.  Kulldorff, M. (1997) A spatial scan statistic. Communications in Statistics -- Theory and Methods 26, 1481-1496.
+}
+\seealso{
+\code{\link[spatstat]{Kest}}
 }
 

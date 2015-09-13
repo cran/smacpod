@@ -13,7 +13,7 @@
 #' @param var.approx  Logical. If TRUE, the approximate variance of Kest(r) under CSR will also be computed.
 #' @param ratio	Logical. If TRUE, the numerator and denominator of each edge-corrected estimate will also be saved, for use in analysing replicated point patterns.
 #'
-#' @return Returns an \code{fv} object.  See documentation for \code{Kest} function in \code{spatstat} package.
+#' @return Returns an \code{fv} object.  See documentation for \code{spatstat::Kest}.
 #' @author Joshua French
 #' @import spatstat
 #' @references Waller, L.A. and Gotway, C.A. (2005).  Applied Spatial Statistics for Public Health Data.  Hoboken, NJ: Wiley.  Kulldorff, M. (1997) A spatial scan statistic. Communications in Statistics -- Theory and Methods 26, 1481-1496.

@@ -5,7 +5,7 @@
 \title{Spatial Scan Test}
 \usage{
 spscan.test(x, case = 2, nsim = 499, alpha = 0.1, nreport = nsim + 1,
-  maxd = NULL)
+  maxd = NULL, parallel = TRUE)
 }
 \arguments{
 \item{x}{A \code{ppp} object from the \code{spatstat} package with marks for the case and control groups.}
@@ -19,24 +19,33 @@ spscan.test(x, case = 2, nsim = 499, alpha = 0.1, nreport = nsim + 1,
 \item{nreport}{The frequency with which to report simulation progress.  The default is \code{nsim+ 1}, meaning no progress will be displayed.}
 
 \item{maxd}{The radius of the largest possible cluster to consider.}
+
+\item{parallel}{A logical indicating whether the test should be parallelized using the \code{parallel:mclapply function}.  Default is TRUE.}
 }
 \value{
-Returns a list with the following components:
-\item{coords}{The centroids of the significant clusters.}
-\item{r}{The radii of the window of the significant clusters.}
-\item{p}{The vector of p-values associated with the significant clusters.}
-\item{ppp}{The original ppp object for which the scan test was performed.}
+Returns a list of length two of class scan. The first element (clusters) is a list containing the significant, non-ovlappering clusters, and has the the following components:
+\item{coords}{The centroid of the significant clusters.}
+\item{r}{The radius of the window of the clusters.}
+\item{pop}{The total population in the cluser window.}
+\item{cases}{The observed number of cases in the cluster window.}
+\item{expected}{The expected number of cases in the cluster window.}
+\item{smr}{Standarized mortaility ratio (observed/expected) in the cluster window.}
+\item{rr}{Relative risk in the cluster window.}
+\item{propcases}{Proportion of cases in the cluster window.}
+\item{loglikrat}{The loglikelihood ratio for the cluster window (i.e., the log of the test statistic).}
+\item{pvalue}{The pvalue of the test statistic associated with the cluster window.}
+The second element of the list is the centroid coordinates.  This is needed for plotting purposes.
 }
 \description{
 \code{spscan.test} performs the spatial scan test of Kulldorf (1997).
 }
 \details{
-The test is performed using the random labeling hypothesis.  The windows are circular and extend from the observed data locations.  The clusters returned are non-overlapping, ordered from most significant to least significant.  The first cluster is the most likely to be a cluster.  If no significant clusters are found, then the most likely is returned (along with a warning).
+The test is performed using the random labeling hypothesis.  The windows are circular and extend from the observed data locations.  The clusters returned are non-overlapping, ordered from most significant to least significant.  The first cluster is the most likely to be a cluster.  If no significant clusters are found, then the most likely cluster is returned (along with a warning).
 }
 \examples{
 data(grave)
-out = spscan.test(grave)
-plot(out, main = "")
+out = spscan.test(grave, parallel = FALSE)
+plot(out, chars = c(1, 20), main = "most likely cluster")
 # get warning if no significant cluster
 out2 = spscan.test(grave, alpha = 0.01)
 }
@@ -44,6 +53,6 @@ out2 = spscan.test(grave, alpha = 0.01)
 Joshua French
 }
 \references{
-Waller, L.A. and Gotway, C.A. (2005).  Applied Spatial Statistics for Public Health Data.  Hoboken, NJ: Wiley.  Kulldorff, M. (1997) A spatial scan statistic. Communications in Statistics -- Theory and Methods 26, 1481-1496.
+Waller, L.A. and Gotway, C.A. (2005).  Applied Spatial Statistics for Public Health Data.  Hoboken, NJ: Wiley.  Kulldorff M., Nagarwalla N. (1995) Spatial disease clusters: Detection and Inference. Statistics in Medicine 14, 799-810.  Kulldorff, M. (1997) A spatial scan statistic. Communications in Statistics -- Theory and Methods 26, 1481-1496.
 }
 

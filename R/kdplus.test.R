@@ -20,7 +20,7 @@ kdplus.test = function(x)
 {
   if(max(class(x) == "kdenv") < 1) stop("x must be an object from the kdenv function.")
   simfuns <- as.data.frame(attr(x[[1]], "simfuns"))
-  simfuns[,1] <- x$obs # replace r with obs kd
+  simfuns[,1] <- x[[1]]$obs # replace r with obs kd
   sdkdhat = apply(simfuns, 1, stats::sd) # estimated variance of kdest simulations
   # turn into matrix
   sdmat = matrix(sdkdhat, nrow = nrow(simfuns), ncol = ncol(simfuns))

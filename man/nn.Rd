@@ -19,7 +19,7 @@ nn(d, k, method = "c", self = FALSE)
 Returns the indexes of the nearest neighbors as a matrix if \code{method = "c"} and a list otherwise.  For each row or element of the list, the indexes are ordered from nearest to farthest.
 }
 \description{
-\code{nn} determines the nearest neighbors for a set of observations.
+\code{nn} determines the nearest neighbors for a set of observations based on the distance matrix.
 }
 \details{
 This function can determine nearest neighbors in two ways:  1. by total count or 2. by distance.

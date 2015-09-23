@@ -27,12 +27,8 @@ Plots object from spscan.test of class \code{scan}.
 }
 \examples{
 data(grave)
-rsim = logrr(grave, nsim = 9)
-plot(rsim)
-# no border or ribben (legend).  Simple color scheme.
-plot(rsim, col = c("blue", "white", "orange"), ribbon = FALSE, box = FALSE)
-# alternate color scheme
-plot(rsim, col = topo.colors(12))
+out = spscan.test(grave, case = 2, alpha = 0.1)
+plot(out, chars = c(1, 20), main = "most likely cluster")
 }
 \seealso{
 \code{\link[spatstat]{plot.ppp}}

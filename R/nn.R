@@ -1,6 +1,6 @@
 #' Determine nearest neighbors
 #' 
-#' \code{nn} determines the nearest neighbors for a set of observations.
+#' \code{nn} determines the nearest neighbors for a set of observations based on the distance matrix.
 #' 
 #' This function can determine nearest neighbors in two ways:  1. by total count or 2. by distance.
 #' If method = "c", then k determines the total number of neighbors to return for each observation.

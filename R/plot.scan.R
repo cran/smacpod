@@ -14,19 +14,15 @@
 #' @export
 #' @examples
 #' data(grave)
-#' rsim = logrr(grave, nsim = 9)
-#' plot(rsim)
-#' # no border or ribben (legend).  Simple color scheme.
-#' plot(rsim, col = c("blue", "white", "orange"), ribbon = FALSE, box = FALSE) 
-#' # alternate color scheme
-#' plot(rsim, col = topo.colors(12))
+#' out = spscan.test(grave, case = 2, alpha = 0.1)
+#' plot(out, chars = c(1, 20), main = "most likely cluster")
 plot.scan = function(x, ..., nv = 100, border = NULL, ccol = NULL, clty = NULL, clwd = NULL)
 {
   if(class(x) != "scan") stop("x should be a scan object from spscan.test function")
   spatstat::plot.ppp(x$ppp, ...)
   
   # number of centroids
-  nc = length(x$r)
+  nc = length(x$clusters)
   
   # set default values
   if(is.null(border)) border = rep(1, nc)
@@ -43,8 +39,8 @@ plot.scan = function(x, ..., nv = 100, border = NULL, ccol = NULL, clty = NULL, 
   # plot clusters
   for(i in 1:nc)
   {
-    plotrix::draw.circle(x$coords[i, 1], x$coords[i, 2], x$r[i], 
-                nv = nv, border = border, 
-                col = ccol[i], lty = clty[i], lwd = clwd[i])
+    plotrix::draw.circle(x$clusters[[i]]$coords[1, 1], x$clusters[[i]]$coords[1, 2], 
+                         x$clusters[[i]]$r, nv = nv, border = border, col = ccol[i], 
+                         lty = clty[i], lwd = clwd[i])
   }
 }

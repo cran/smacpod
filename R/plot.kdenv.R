@@ -1,11 +1,27 @@
-#' Plots object from kdest of class \code{kdenv}. 
-#'
-#' @param x An object of class kdenv to be plotted.
-#' @param ... Additional graphical parameters passed to \code{plot.fv} function.
-#' @param shadecol1 Shade color for max/min envelopes. 
-#' @param shadecol2 Shade color for confidence envelopes.
+#' Plot a \code{kdenv} object.
+#' 
+#' Plots an object from \code{\link[smacpod]{kdest}} of 
+#' class \code{kdenv}.
+#' 
+#' The solid line indicates the observed difference in the 
+#' K functions for the cases and controls.  The dashed line 
+#' indicates the average difference in the K functions 
+#' produced from the data sets
+#' simulated under the random labeling hypothesis when 
+#' executing the \code{kdest} function.
+#' 
+#' @param x An object of class \code{kdenv} produced by 
+#'   \code{\link[smacpod]{kdest}}.
+#' @param ... Additional graphical parameters passed to the
+#'   \code{\link[spatstat]{plot.fv}} function, which is used
+#'   internally for plotting.
+#' @param shadecol1 Shade color for max/min envelopes.  Default is a dark grey.
+#' @param shadecol2 Shade color for tolerance envelopes.  Default is "lightgrey".
 #' @param main A main title for the plot.  Default is blank.
-#' @param legend Logical for whether a legend should automatically be displayed.  Default if \code{FALSE}.
+#' @param legend Logical for whether a legend should
+#'   automatically be displayed.  Default is \code{FALSE}.  
+#'   See Details for an explanation of the components of 
+#'   the plot.
 #' @import spatstat
 #' @importFrom graphics plot polygon
 #' @method plot kdenv
@@ -15,14 +31,13 @@
 #' data(grave)
 #' kd1 = kdest(grave, nsim = 19, level = 0.9)
 #' plot(kd1)
+#' plot(kd1, legend = TRUE)
 
-plot.kdenv = function(x, ..., shadecol1 = "grey", shadecol2 = "lightblue", main = "", legend = FALSE)
-{
-  if(!is.element("kdenv", class(x))) stop("x should be an object from kdest function")
+plot.kdenv = function(x, ..., shadecol1 = "gray56", shadecol2 = "lightgrey", main = "", legend = FALSE) {
+  if (!is.element("kdenv", class(x))) stop("x should be an object from kdest function")
   # if there were no simulations
-  if(length(x) == 1) spatstat::plot.fv(x[[1]], main = main, legend = legend, ...)
-  if(length(x) > 1)
-  {
+  if (length(x) == 1) spatstat::plot.fv(x[[1]], main = main, legend = legend, ...)
+  if (length(x) > 1) {
     # create main plot
     spatstat::plot.fv(x[[1]], main = main, legend = legend, shadecol = shadecol1, ...)
     # shade confidence bands
@@ -30,7 +45,7 @@ plot.kdenv = function(x, ..., shadecol1 = "grey", shadecol2 = "lightblue", main 
     # the polygon will go beyond the desired boundary
     plotargs = list(...)
     xmax = max(x$r)
-    if(!is.null(plotargs$xlim)){ xmax = max(plotargs$xlim) }
+    if (!is.null(plotargs$xlim)) { xmax = max(plotargs$xlim) }
     pin = which(x$r <= xmax)
     
     graphics::polygon(c(x$r[pin], rev(x$r[pin])), c(x$qhi[pin], rev(x$qlo[pin])), 

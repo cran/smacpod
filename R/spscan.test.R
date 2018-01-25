@@ -1,84 +1,114 @@
 #' Spatial Scan Test
 #' 
-#' \code{spscan.test} performs the spatial scan test of Kulldorf (1997).
+#' \code{spscan.test} performs the spatial scan test of 
+#' Kulldorf (1997) for case/control point data.
 #' 
-#' The test is performed using the random labeling hypothesis.  The windows are circular and extend from the observed data locations.  The clusters returned are non-overlapping, ordered from most significant to least significant.  The first cluster is the most likely to be a cluster.  If no significant clusters are found, then the most likely cluster is returned (along with a warning).
+#' The test is performed using the random labeling 
+#' hypothesis.  The windows are circular and extend from the
+#' observed data locations.  The clusters returned are 
+#' non-overlapping, ordered from most significant to least 
+#' significant.  The first cluster is the most likely to be 
+#' a cluster.  If no significant clusters are found, then 
+#' the most likely cluster is returned (along with a 
+#' warning).
 #' 
-#' @param x A \code{ppp} object from the \code{spatstat} package with marks for the case and control groups.
-#' @param case The position of the name of the "case" group in levels(x$marks).  The default is 2.
-#' @param nsim The number of simulations from which to compute p-value.
-#' @param alpha The significance level to determine whether a cluster is signficiant.
-#' @param nreport The frequency with which to report simulation progress.  The default is \code{nsim+ 1}, meaning no progress will be displayed.
-#' @param maxd The radius of the largest possible cluster to consider.
-#' @param parallel A logical indicating whether the test should be parallelized using the \code{parallel:mclapply function}.  Default is TRUE.
-#'
-#' @return Returns a list of length two of class scan. The first element (clusters) is a list containing the significant, non-ovlappering clusters, and has the the following components: 
-#' \item{coords}{The centroid of the significant clusters.}
-#' \item{r}{The radius of the window of the clusters.}
-#' \item{pop}{The total population in the cluser window.}
-#' \item{cases}{The observed number of cases in the cluster window.}
-#' \item{expected}{The expected number of cases in the cluster window.}
-#' \item{smr}{Standarized mortaility ratio (observed/expected) in the cluster window.}
-#' \item{rr}{Relative risk in the cluster window.}
-#' \item{propcases}{Proportion of cases in the cluster window.}
-#' \item{loglikrat}{The loglikelihood ratio for the cluster window (i.e., the log of the test statistic).}
-#' \item{pvalue}{The pvalue of the test statistic associated with the cluster window.}
-#' The second element of the list is the centroid coordinates.  This is needed for plotting purposes.
+#' Setting \code{cl} to a positive integer MAY speed up
+#' computations on non-Windows computers.  However, 
+#' parallelization does have overhead cost, and there are
+#' cases where parallelization results in slower 
+#' computations.
+#' 
+#' @param x A \code{ppp} object from the \code{spatstat} 
+#'   package with marks for the case and control groups.
+#' @param case The position of the name of the "case" group 
+#'   in \code{levels(x$marks)}.  The default is 2. 
+#'   \code{x$marks} is assumed to be a factor.  Automatic 
+#'   conversion is attempted if it is not.
+#' @param nsim The number of simulations from which to 
+#'   compute the p-value.  A non-negative integer.  Default 
+#'   is 499.
+#' @param alpha The significance level to determine whether 
+#'   a cluster is signficiant.  Default is 0.1.
+#' @param maxd The radius of the largest possible cluster to
+#'   consider.  Default is \code{NULL}, i.e., no limit.
+#' @inheritParams pbapply::pbapply
+#' @inheritParams qnn.test
+#'   
+#' @return Returns a list of length two of class
+#'   \code{scan}. The first element (clusters) is a list
+#'   containing the significant, non-ovlappering clusters,
+#'   and has the the following components: \item{coords}{The
+#'   centroid of the significant clusters.} \item{r}{The
+#'   radius of the window of the clusters.} \item{pop}{The
+#'   total population in the cluser window.}
+#'   \item{cases}{The observed number of cases in the
+#'   cluster window.} \item{expected}{The expected number of
+#'   cases in the cluster window.} \item{smr}{Standarized
+#'   mortaility ratio (observed/expected) in the cluster
+#'   window.} \item{rr}{Relative risk in the cluster
+#'   window.} \item{propcases}{Proportion of cases in the
+#'   cluster window.} \item{loglikrat}{The loglikelihood
+#'   ratio for the cluster window (i.e., the log of the test
+#'   statistic).} \item{pvalue}{The pvalue of the test 
+#'   statistic associated with the cluster window.} The 
+#'   second element of the list is the centroid coordinates.
+#'   This is needed for plotting purposes.
 
 #' @author Joshua French
 #' @import spatstat
-#' @importFrom SpatialTools dist1
-#' @importFrom parallel mclapply
 #' @export
 #' @references Waller, L.A. and Gotway, C.A. (2005).  Applied Spatial Statistics for Public Health Data.  Hoboken, NJ: Wiley.  Kulldorff M., Nagarwalla N. (1995) Spatial disease clusters: Detection and Inference. Statistics in Medicine 14, 799-810.  Kulldorff, M. (1997) A spatial scan statistic. Communications in Statistics -- Theory and Methods 26, 1481-1496.
 #' @examples 
 #' data(grave)
-#' out = spscan.test(grave, parallel = FALSE)
+#' out = spscan.test(grave)
 #' plot(out, chars = c(1, 20), main = "most likely cluster")
 #' # get warning if no significant cluster
 #' out2 = spscan.test(grave, alpha = 0.01)
 
 spscan.test <- 
-  function (x, case = 2, nsim = 499, alpha = 0.1, nreport = nsim + 
-              1, maxd = NULL, parallel = TRUE) 
-  {
-    if(!is.element("ppp", class(x))) stop("x must be a ppp object")
-    if(is.null(x$marks)) stop("x must be marked as cases or controls")
-    if(!is.factor(x$marks)) stop("The marks(x) must be a factor")
+  function(x, case = 2, nsim = 499, alpha = 0.1, 
+            maxd = NULL, cl = NULL, longlat = FALSE) {
+    if (!is.element("ppp", class(x))) stop("x must be a ppp object")
+    if (is.null(x$marks)) stop("x must be marked as cases or controls")
+    if (!is.factor(x$marks)) {
+      message("converting marks(x) to a factor")
+      x$marks <- factor(x$marks)
+    }
+    if (!is.factor(x$marks)) stop("The marks(x) must be a factor")
     nlev = length(levels(x$marks))
-    if(case < 1 || case > nlev) stop("case must be an integer between 1 and length(levels(x$marks))")
-    if(nsim < 0 | !is.finite(nsim)) stop("nsim must be a non-negative integer")
+    if (case < 1 || case > nlev) stop("case must be an integer between 1 and length(levels(x$marks))")
+    if (nsim < 0 | !is.finite(nsim)) stop("nsim must be a non-negative integer")
     
     idxcase = which(x$marks == levels(x$marks)[case])
     N = x$n
     N1 = length(idxcase)
     coords = matrix(c(x$x, x$y), ncol = 2)
-    d = SpatialTools::dist1(coords)
+    # d = SpatialTools::dist1(coords)
+    d = sp::spDists(cbind(x$x, x$y), longlat = longlat)
     
-    if(is.null(maxd)) maxd = max(d)/2
+    if (is.null(maxd)) maxd = max(d)/2
     
     mynn = nn(d, k = maxd, method = "d", self = TRUE)
     
-    if (nreport <= nsim) 
-      cat(paste("sims completed: "))
+    # if (nreport <= nsim) 
+    #  cat(paste("sims completed: "))
     
     # determine the number of events inside the windows for successive
     # windows related to growing windows around each event location
     # to include the respective nearest neighbors stored in mynn
-    Nin = unlist(lapply(mynn, function(x) 1:length(x)), use.names = FALSE)
+    Nin = unlist(lapply(mynn, function(x) seq_along(x)), use.names = FALSE)
     Nout = N - Nin
     # constant used in many places on calculation of log test statistic
     const = (N1 * log(N1) + (N - N1) * log(N - N1) - N * log(N))
     # determine whether to parallelize results
-    fcall = lapply
-    if(parallel) fcall = parallel::mclapply
+    fcall = pbapply::pblapply
+    # if (parallel) fcall = parallel::mclapply
     
     # set up list of arguments to lapply or mclapply
     # X is the index (i), needed for counting
     # FUN determines the maximum spatial scan statistic for that data set
     fcall_list = list(X = as.list(1:nsim), 
-                  FUN = function(i)
-                  {
+                  FUN = function(i) {
                     # create vector of zeros with 1 in the case positions
                     z = numeric(N)
                     z[sample(1:N, N1)] = 1
@@ -106,13 +136,15 @@ spscan.test <-
 
                     # update progress
                     # if ((i%%nreport) == 0) cat(paste(i, ""))
-                    if((i%%nreport) == 0) cat(i, " ")
+                    # if((i%%nreport) == 0) cat(i, " ")
                     # return max of statistics for simulation
                     return(max(tall))
-                  })
+                  }, 
+                  cl = cl)
     
     # mclapply or lapply to the simulated data sets the FUN in fcall_list
     # returns max scan statistic for that simulation
+    # tsim = unlist(do.call(fcall, fcall_list), use.names = TRUE)
     tsim = unlist(do.call(fcall, fcall_list), use.names = TRUE)
     
     # number of nns for each observation
@@ -192,8 +224,7 @@ spscan.test <-
     sigc = which(pvalue <= alpha, useNames = FALSE)
     
     # if there are no significant clusters, return most likely cluster
-    if(length(sigc) == 0)
-    {
+    if (length(sigc) == 0) {
       sigc = which.max(tmax)
       warning("No significant clusters.  Returning most likely cluster.")
     }
@@ -231,8 +262,7 @@ spscan.test <-
     
     # reformat output for return
     clusters = vector("list", length(u))
-    for(i in seq_along(clusters))
-    {
+    for (i in seq_along(clusters)) {
       clusters[[i]]$locids = sig_regions[[i]]
       clusters[[i]]$coords = sig_coords[i,, drop = FALSE]
       clusters[[i]]$r = sig_r[i]

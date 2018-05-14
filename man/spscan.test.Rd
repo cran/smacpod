@@ -38,20 +38,20 @@ Euclidean distance (\code{FALSE}) or Great Circle
 Default is \code{FALSE}, i.e., Euclidean distance.}
 }
 \value{
-Returns a list of length two of class
-  \code{scan}. The first element (clusters) is a list
-  containing the significant, non-ovlappering clusters,
+Returns a list of length two of class 
+  \code{scan}. The first element (clusters) is a list 
+  containing the significant, non-ovlappering clusters, 
   and has the the following components: \item{coords}{The
-  centroid of the significant clusters.} \item{r}{The
-  radius of the window of the clusters.} \item{pop}{The
-  total population in the cluser window.}
-  \item{cases}{The observed number of cases in the
+  centroid of the significant clusters.} \item{r}{The 
+  radius of the window of the clusters.} \item{pop}{The 
+  total population in the cluser window.} 
+  \item{cases}{The observed number of cases in the 
   cluster window.} \item{expected}{The expected number of
-  cases in the cluster window.} \item{smr}{Standarized
-  mortaility ratio (observed/expected) in the cluster
-  window.} \item{rr}{Relative risk in the cluster
-  window.} \item{propcases}{Proportion of cases in the
-  cluster window.} \item{loglikrat}{The loglikelihood
+  cases in the cluster window.} \item{smr}{Standarized 
+  mortaility ratio (observed/expected) in the cluster 
+  window.} \item{rr}{Relative risk in the cluster 
+  window.} \item{propcases}{Proportion of cases in the 
+  cluster window.} \item{loglikrat}{The loglikelihood 
   ratio for the cluster window (i.e., the log of the test
   statistic).} \item{pvalue}{The pvalue of the test 
   statistic associated with the cluster window.} The 
@@ -72,21 +72,30 @@ a cluster.  If no significant clusters are found, then
 the most likely cluster is returned (along with a 
 warning).
 
-Setting \code{cl} to a positive integer MAY speed up
+Setting \code{cl} to a positive integer MAY speed up 
 computations on non-Windows computers.  However, 
-parallelization does have overhead cost, and there are
+parallelization does have overhead cost, and there are 
 cases where parallelization results in slower 
 computations.
 }
 \examples{
 data(grave)
-out = spscan.test(grave)
+out = spscan.test(grave, nsim = 99)
 plot(out, chars = c(1, 20), main = "most likely cluster")
 # get warning if no significant cluster
-out2 = spscan.test(grave, alpha = 0.01)
+out2 = spscan.test(grave, alpha = 0.001, nsim = 99)
 }
 \references{
-Waller, L.A. and Gotway, C.A. (2005).  Applied Spatial Statistics for Public Health Data.  Hoboken, NJ: Wiley.  Kulldorff M., Nagarwalla N. (1995) Spatial disease clusters: Detection and Inference. Statistics in Medicine 14, 799-810.  Kulldorff, M. (1997) A spatial scan statistic. Communications in Statistics -- Theory and Methods 26, 1481-1496.
+Kulldorff M., Nagarwalla N. (1995) Spatial
+  disease clusters: Detection and Inference. Statistics
+  in Medicine 14, 799-810.
+  
+  Kulldorff, M. (1997) A spatial scan statistic.
+  Communications in Statistics -- Theory and Methods 26,
+  1481-1496.
+  
+  Waller, L.A. and Gotway, C.A. (2005). Applied Spatial
+  Statistics for Public Health Data. Hoboken, NJ: Wiley.
 }
 \author{
 Joshua French

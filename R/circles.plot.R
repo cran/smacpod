@@ -40,7 +40,6 @@
 #'   the number of rows of \code{coords}.
 #' @return NULL
 #' @author Joshua French
-#' @importFrom SpatialTools dist1
 #' @importFrom graphics plot
 #' @importFrom plotrix draw.circle
 #' @seealso \code{\link[plotrix]{draw.circle}}, \code{\link[graphics]{polygon}}

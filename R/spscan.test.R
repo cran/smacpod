@@ -12,9 +12,9 @@
 #' the most likely cluster is returned (along with a 
 #' warning).
 #' 
-#' Setting \code{cl} to a positive integer MAY speed up
+#' Setting \code{cl} to a positive integer MAY speed up 
 #' computations on non-Windows computers.  However, 
-#' parallelization does have overhead cost, and there are
+#' parallelization does have overhead cost, and there are 
 #' cases where parallelization results in slower 
 #' computations.
 #' 
@@ -34,37 +34,44 @@
 #' @inheritParams pbapply::pbapply
 #' @inheritParams qnn.test
 #'   
-#' @return Returns a list of length two of class
-#'   \code{scan}. The first element (clusters) is a list
-#'   containing the significant, non-ovlappering clusters,
+#' @return Returns a list of length two of class 
+#'   \code{scan}. The first element (clusters) is a list 
+#'   containing the significant, non-ovlappering clusters, 
 #'   and has the the following components: \item{coords}{The
-#'   centroid of the significant clusters.} \item{r}{The
-#'   radius of the window of the clusters.} \item{pop}{The
-#'   total population in the cluser window.}
-#'   \item{cases}{The observed number of cases in the
+#'   centroid of the significant clusters.} \item{r}{The 
+#'   radius of the window of the clusters.} \item{pop}{The 
+#'   total population in the cluser window.} 
+#'   \item{cases}{The observed number of cases in the 
 #'   cluster window.} \item{expected}{The expected number of
-#'   cases in the cluster window.} \item{smr}{Standarized
-#'   mortaility ratio (observed/expected) in the cluster
-#'   window.} \item{rr}{Relative risk in the cluster
-#'   window.} \item{propcases}{Proportion of cases in the
-#'   cluster window.} \item{loglikrat}{The loglikelihood
+#'   cases in the cluster window.} \item{smr}{Standarized 
+#'   mortaility ratio (observed/expected) in the cluster 
+#'   window.} \item{rr}{Relative risk in the cluster 
+#'   window.} \item{propcases}{Proportion of cases in the 
+#'   cluster window.} \item{loglikrat}{The loglikelihood 
 #'   ratio for the cluster window (i.e., the log of the test
 #'   statistic).} \item{pvalue}{The pvalue of the test 
 #'   statistic associated with the cluster window.} The 
 #'   second element of the list is the centroid coordinates.
 #'   This is needed for plotting purposes.
-
 #' @author Joshua French
 #' @import spatstat
 #' @export
-#' @references Waller, L.A. and Gotway, C.A. (2005).  Applied Spatial Statistics for Public Health Data.  Hoboken, NJ: Wiley.  Kulldorff M., Nagarwalla N. (1995) Spatial disease clusters: Detection and Inference. Statistics in Medicine 14, 799-810.  Kulldorff, M. (1997) A spatial scan statistic. Communications in Statistics -- Theory and Methods 26, 1481-1496.
+#' @references Kulldorff M., Nagarwalla N. (1995) Spatial
+#'   disease clusters: Detection and Inference. Statistics
+#'   in Medicine 14, 799-810.
+#'   
+#'   Kulldorff, M. (1997) A spatial scan statistic.
+#'   Communications in Statistics -- Theory and Methods 26,
+#'   1481-1496.
+#'   
+#'   Waller, L.A. and Gotway, C.A. (2005). Applied Spatial
+#'   Statistics for Public Health Data. Hoboken, NJ: Wiley.
 #' @examples 
 #' data(grave)
-#' out = spscan.test(grave)
+#' out = spscan.test(grave, nsim = 99)
 #' plot(out, chars = c(1, 20), main = "most likely cluster")
 #' # get warning if no significant cluster
-#' out2 = spscan.test(grave, alpha = 0.01)
-
+#' out2 = spscan.test(grave, alpha = 0.001, nsim = 99)
 spscan.test <- 
   function(x, case = 2, nsim = 499, alpha = 0.1, 
             maxd = NULL, cl = NULL, longlat = FALSE) {
@@ -83,15 +90,12 @@ spscan.test <-
     N = x$n
     N1 = length(idxcase)
     coords = matrix(c(x$x, x$y), ncol = 2)
-    # d = SpatialTools::dist1(coords)
+
     d = sp::spDists(cbind(x$x, x$y), longlat = longlat)
     
     if (is.null(maxd)) maxd = max(d)/2
     
     mynn = nn(d, k = maxd, method = "d", self = TRUE)
-    
-    # if (nreport <= nsim) 
-    #  cat(paste("sims completed: "))
     
     # determine the number of events inside the windows for successive
     # windows related to growing windows around each event location
@@ -102,8 +106,7 @@ spscan.test <-
     const = (N1 * log(N1) + (N - N1) * log(N - N1) - N * log(N))
     # determine whether to parallelize results
     fcall = pbapply::pblapply
-    # if (parallel) fcall = parallel::mclapply
-    
+
     # set up list of arguments to lapply or mclapply
     # X is the index (i), needed for counting
     # FUN determines the maximum spatial scan statistic for that data set
@@ -134,9 +137,6 @@ spscan.test <-
                     tall = talla + tallb + tallc + talld - const
                     tall[N1in/Nin <= N1out/Nout] = 0
 
-                    # update progress
-                    # if ((i%%nreport) == 0) cat(paste(i, ""))
-                    # if((i%%nreport) == 0) cat(i, " ")
                     # return max of statistics for simulation
                     return(max(tall))
                   }, 
@@ -174,34 +174,14 @@ spscan.test <-
     tobsd[which(is.nan(tobsd))] = 0
     tobs = tobsa + tobsb + tobsc + tobsd - const
     # correct test statistics for certain cases
+    # incidence proportion in window is smaller than the 
+    # proportion outside window
     tobs[N1in/Nin <= N1out/Nout] = 0
-    
-#     t2 = tobs[which(fac == "66")]
-#     N1in2 = N1in[which(fac == "66")]
-#     Nin2 = Nin[which(fac == "66")]
-#     N1out2 = N1out[which(fac == "66")]
-#     N0in2 = N0in[which(fac == "66")]
-#     N0out2 = N0out[which(fac == "66")]
-#     
-#     N1in2 * (log(N1in2) - log(Nin2)) + N1out2 * (log(N1out2) - log(Nout2)) + 
-#       N0in2 * (log(N0in2) - log(Nin2)) + N0out2 * (log(N0out2) - log(Nout2)) - 
-#       (N1 * log(N1) + (N - N1) * log(N - N1) - N * log(N))
-#     
-#     N1in = 3; Nin = 3; N1out = N1 - N1in; N0in = 0; N0out = 113; Nout = 140
-#     N1in * (log(N1in) - log(Nin)) + 
-#       N1out * (log(N1out) - log(Nout)) + 
-#       N0in * (log(N0in) - log(Nin)) + 
-#       N0out * (log(N0out) - log(Nout)) - 
-#       (N1 * log(N1) + (N - N1) * log(N - N1) - N * log(N))
-#     
-#     # correct test statistics for various cases
-#     tobs[N1in/Nin <= N1out/Nout] = 0
-#     tobs[which(is.nan(tobs))] = 0
-#     
-    # indidence proportion in window is not larger than the proportion outside window
+
     # max scan statistic over all windows
     tscan = max(tobs)
-    # observed test statistics, split by centroid in order of successive windows
+    # observed test statistics, split by centroid in order 
+    # of successive windows
     tobs_split = split(tobs, fac)
     
     # position of most likely cluster centered at each centroid
@@ -252,7 +232,8 @@ spscan.test <-
     sig_tstat = tmax[usigc]
     sig_p = pvalue[usigc]
     sig_coords = coords[usigc,, drop = FALSE]
-    sig_r = diag(SpatialTools::dist2(sig_coords, coords[max_nn[usigc], , drop = FALSE]))
+    # sig_r = diag(SpatialTools::dist2(sig_coords, coords[max_nn[usigc], , drop = FALSE]))
+    sig_r = sp::spDists(sig_coords, coords[max_nn[usigc], , drop = FALSE], longlat = longlat, diagonal = TRUE)
     sig_popin = (Nin[tmax_idx])[usigc]
     sig_yin = (N1in[tmax_idx])[usigc]
     sig_ein = (N1/N)*sig_popin
@@ -276,6 +257,6 @@ spscan.test <-
       clusters[[i]]$pvalue = sig_p[i]
     }
     outlist = list(clusters = clusters, ppp = x)
-    class(outlist) = "scan"
+    class(outlist) = "spscan"
     return(outlist)
   }

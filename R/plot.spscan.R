@@ -7,7 +7,7 @@
 #' \code{clwd} are specified, then the length of these
 #' vectors must match \code{nrow(x$coords)}.
 #' 
-#' @param x An object of class \code{scan}.
+#' @param x An object of class \code{spscan}.
 #' @param ... Additional graphical parameters passed to the
 #'   \code{\link[spatstat]{plot.ppp}} function.
 #' @param nv The number of verticies to draw the cluster 
@@ -23,17 +23,17 @@
 #'   \code{lwd = 1} for the rest.
 #' @importFrom graphics plot
 #' @importFrom plotrix draw.circle
-#' @method plot scan
+#' @method plot spscan
 #' @seealso \code{\link[spatstat]{plot.ppp}}, \code{\link[plotrix]{draw.circle}}
 #' @export
 #' @examples
 #' data(grave)
 #' out = spscan.test(grave, case = 2, alpha = 0.1)
 #' plot(out, chars = c(1, 20), main = "most likely cluster")
-plot.scan = function(x, ..., nv = 100, border = NULL, 
+plot.spscan = function(x, ..., nv = 100, border = NULL, 
                      ccol = NULL, clty = NULL, clwd = NULL) {
-  if (class(x) != "scan") {
-    stop("x should be a scan object from spscan.test function")
+  if (class(x) != "spscan") {
+    stop("x should be a spscan object from spscan.test function")
   }
   spatstat::plot.ppp(x$ppp, ...)
   

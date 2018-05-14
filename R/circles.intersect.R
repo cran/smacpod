@@ -17,7 +17,6 @@
 #' @return Returns a matrix of logical values indicating
 #'   whether the circles intersect.
 #' @author Joshua French
-#' @importFrom SpatialTools dist1
 #' @export
 #' @examples 
 #' # first two circles intersect each other, 
@@ -36,10 +35,10 @@
 #' r = c(1, 1.5)
 #' circles.plot(co, r)
 #' circles.intersect(co, r)
-
 circles.intersect <- function(coords, r) {
-  d = SpatialTools::dist1(coords)
-  if(length(r) != nrow(coords)) {
+  # d = SpatialTools::dist1(coords)
+  d = as.matrix(dist(coords))
+  if (length(r) != nrow(coords)) {
     stop("length(r) must be equal to nrow(coords)")
   }
   rmat1 = matrix(r, nrow = length(r), ncol = length(r))

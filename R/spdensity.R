@@ -11,7 +11,6 @@
 #' @return This function produces the spatial density of \code{x}
 #' as an object of class \code{im} from the \code{spatstat} package.  
 #' @author Joshua French
-#' @import spatstat
 #' @export
 #' @seealso \code{\link[spatstat]{density.ppp}}
 #' @references Waller, L.A. and Gotway, C.A. (2005).  Applied Spatial Statistics for Public Health Data.  Hoboken, NJ: Wiley.

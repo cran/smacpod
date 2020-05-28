@@ -13,12 +13,11 @@
 #' @param main A main title for the plot.  Default is blank.
 #' @details An important aspect of this plot is the
 #'   color argument (\code{col}) used for displaying
-#'   the regions outside the tolerance envelopes.  If NULL
+#'   the regions outside the non-rejection envelopes.  If NULL
 #'   (the implicit default), then the default color palette
 #'   used by \code{\link[spatstat]{image.im}} will be used. 
 #'   Simpler schemes, e.g., c("blue", "white", "orange") can
 #'   suffice. See the examples.
-#' @importFrom graphics plot
 #' @method plot logrrenv
 #' @seealso \code{\link[spatstat]{plot.im}},
 #'   \code{\link[spatstat]{contour.im}}
@@ -32,28 +31,26 @@
 #' # alternate color scheme
 #' plot(logrrsim, col = topo.colors(12))
 plot.logrrenv = function(x, ..., conlist = list(), main = "") {
-  if (!is.element("logrrenv", class(x))) stop("x should be an object from logrr function")
-  
   # if there were no simulations
-  if (is.null(x$tolenv)) {
+  if (is.null(x$nrenv)) {
     spatstat::image.im(x, ...)
   } else {
     # create temporary im object for plotting
     xtemp = spatstat::im(mat = x$v, xcol = x$xcol, yrow = x$yrow)
-    # determine which locations within tolerance intervals or are NA
-    which_na = rbind(which(x$tolenv$v == 0, arr.ind = TRUE),
+    # determine which locations within non-rejection intervals or are NA
+    which_na = rbind(which(x$nrenv$v == 0, arr.ind = TRUE),
                      which(is.na(x$v), arr.ind = TRUE))
 
     # arguments for contour.im function
     argc = list(x = xtemp, add = TRUE, conlist)
     
-    # NA any locations outside window or inside tolerance intervals
+    # NA any locations outside window or inside non-rejection envelopes
     xtemp$v[which_na] = NA
 
     # arguments for image.im function
     argi = list(x = xtemp, main = main, ...)
        
-    # plot colors for regions outside tolerance envelopes
+    # plot colors for regions outside non-rejection envelopes
     do.call(spatstat::image.im, argi)
     # add contour to plot
     do.call(spatstat::contour.im, argc) 

@@ -26,7 +26,7 @@ Plots objects  of class \code{logrrenv} produced by the
 \details{
 An important aspect of this plot is the
   color argument (\code{col}) used for displaying
-  the regions outside the tolerance envelopes.  If NULL
+  the regions outside the non-rejection envelopes.  If NULL
   (the implicit default), then the default color palette
   used by \code{\link[spatstat]{image.im}} will be used. 
   Simpler schemes, e.g., c("blue", "white", "orange") can

@@ -21,8 +21,6 @@
 #' @param clwd Line width of circles.  Default is NULL,
 #'   indicating \code{lwd = 2} for the most likely cluster and 
 #'   \code{lwd = 1} for the rest.
-#' @importFrom graphics plot
-#' @importFrom plotrix draw.circle
 #' @method plot spscan
 #' @seealso \code{\link[spatstat]{plot.ppp}}, \code{\link[plotrix]{draw.circle}}
 #' @export

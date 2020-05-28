@@ -37,7 +37,7 @@
 #' circles.intersect(co, r)
 circles.intersect <- function(coords, r) {
   # d = SpatialTools::dist1(coords)
-  d = as.matrix(dist(coords))
+  d = as.matrix(stats::dist(coords))
   if (length(r) != nrow(coords)) {
     stop("length(r) must be equal to nrow(coords)")
   }

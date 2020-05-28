@@ -4,11 +4,28 @@
 \alias{logrr}
 \title{Log ratio of spatial densities}
 \usage{
-logrr(x, sigma = NULL, sigmacon = NULL, case = 2, nsim = 0,
-  level = 0.9, alternative = "two.sided", ..., bwargs = list(),
-  weights = NULL, edge = TRUE, varcov = NULL, at = "pixels",
-  leaveoneout = TRUE, adjust = 1, diggle = FALSE, kernel = "gaussian",
-  scalekernel = is.character(kernel), positive = FALSE, verbose = TRUE)
+logrr(
+  x,
+  sigma = NULL,
+  sigmacon = NULL,
+  case = 2,
+  nsim = 0,
+  level = 0.9,
+  alternative = "two.sided",
+  ...,
+  bwargs = list(),
+  weights = NULL,
+  edge = TRUE,
+  varcov = NULL,
+  at = "pixels",
+  leaveoneout = TRUE,
+  adjust = 1,
+  diggle = FALSE,
+  kernel = "gaussian",
+  scalekernel = is.character(kernel),
+  positive = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{x}{
@@ -29,22 +46,22 @@ in \code{levels(x$marks)}.  The default is 2.
 conversion is attempted if it is not.}
 
 \item{nsim}{The number of simulated data sets from which 
-to construct the tolerance intervals under the random
+to construct the non-rejection envelopes under the random
 labeling hypothesis.  Default is 0 (i.e., no
-intervals).}
+envelopes).}
 
-\item{level}{The tolerance level used for the pointwise
-tolerance intervals.}
+\item{level}{The level used for the pointwise
+non-rejection envelopes.}
 
 \item{alternative}{The direction of the significance test
 to identify potential clusters using a Monte Carlo test
-based on the pointwise tolerance intervals.  Default is
+based on the pointwise non-rejection envelopes.  Default is
 \code{"two.sided"} (logrr != 0).  The values \code{"less"}
 (logrr < 0) and \code{"greater"} (logrr > 0) are also valid.}
 
 \item{...}{
-    Additional arguments passed to \code{\link{pixellate.ppp}}
-    and \code{\link{as.mask}} to determine
+    Additional arguments passed to \code{\link[spatstat]{pixellate.ppp}}
+    and \code{\link[spatstat]{as.mask}} to determine
     the pixel resolution, or passed to \code{sigma} if it is a function.
   }
 
@@ -138,7 +155,7 @@ The function produces an object of type
 functions for cases and controls.  The numerator in this 
 ratio is related to the "cases" and the denominator to 
 the "controls".  If \code{nsim > 0}, then pointwise 
-tolerance intervals are used to assess potential 
+non-rejection envelopes are used to assess potential 
 clustering of cases and controls relative to each other.
 }
 \details{

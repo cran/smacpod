@@ -25,20 +25,19 @@
 #' @return Returns an \code{fv} object.  See documentation 
 #'   for \code{spatstat::Kest}.
 #' @author Joshua French
-#' @import spatstat
 #' @seealso \code{\link[spatstat]{Kest}}, 
 #'   \code{\link[spatstat]{eval.fv}}
 #' @references Waller, L.A. and Gotway, C.A. (2005). Applied
 #'   Spatial Statistics for Public Health Data. Hoboken, NJ:
 #'   Wiley.
+#' @export
 #' @examples 
 #' data(grave)
-#' # kd = kd(grave)
-#' # plot(kd)
-
-kd = function(x, case = 2, r = NULL, rmax = rmax, 
+#' kd = kd(grave)
+#' plot(kd)
+kd = function(x, case = 2, r = NULL, rmax = NULL, 
               breaks = NULL, 
-              correction=c("border", "isotropic", "Ripley", "translate"), 
+              correction = c("border", "isotropic", "Ripley", "translate"), 
               nlarge = 3000, domain = NULL, 
               var.approx = FALSE, ratio = FALSE) {
   cases = which(x$marks == levels(x$marks)[case])

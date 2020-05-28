@@ -1,9 +1,9 @@
 #' q Nearest Neighbors Test
-#' 
+#'
 #' \code{qnn.test} calculates statistics related to the q
 #' nearest neighbors method of comparing case and control
 #' point patterns under the random labeling hypothesis.
-#' 
+#'
 #' @param x A \code{ppp} object from the \code{spatstat}
 #'   package with marks for the case and control groups.
 #' @param q A vector of positive integers indicating the
@@ -15,33 +15,30 @@
 #'   in levels(x$marks).  The default is 2.
 #' @param longlat A logical value indicating whether
 #'   Euclidean distance (\code{FALSE}) or Great Circle
-#'   (WGS84 ellipsoid, \code{FALSE}) should be used. 
-#'   Default is \code{FALSE}, i.e., Euclidean distance.
-#'   
-#' @return Returns a list with the following components: 
+#'   (WGS84 ellipsoid, \code{FALSE}) should be used. Default
+#'   is \code{FALSE}, i.e., Euclidean distance.
+#'
+#' @return Returns a list with the following components:
 #'   \item{qsum}{A dataframe with the number of neighbors
-#'   (q), test statistic (Tq), and p-value for each test.} 
+#'   (q), test statistic (Tq), and p-value for each test.}
 #'   \item{consum}{A dataframe with the contrasts
 #'   (contrast), test statistic (Tcon), and p-value
-#'   (pvaluecon) for the test of contrasts.}
+#'   (pvalue) for the test of contrasts.}
 #' @author Joshua French
-#' @import spatstat
-#' @importFrom stats dist
-#' @importFrom utils combn
 #' @export
-#' @references Waller, L.A., and Gotway, C.A. (2005). 
-#' Applied Spatial Statistics for Public Health Data. 
-#' Hoboken, NJ: Wiley.
-#' 
-#' Cuzick, J., and Edwards, R. (1990). Spatial clustering
-#' for inhomogeneous populations. Journal of the Royal
-#' Statistical Society. Series B (Methodological), 73-104.
-#' 
-#' Alt, K.W., and Vach, W. (1991). The reconstruction of
-#' "genetic kinship" in prehistoric burial
-#' complexes-problems and statistics. Classification, Data
-#' Analysis, and Knowledge Organization, 299-310.
-#' @examples 
+#' @references Waller, L.A., and Gotway, C.A. (2005).
+#'   Applied Spatial Statistics for Public Health Data.
+#'   Hoboken, NJ: Wiley.
+#'
+#'   Cuzick, J., and Edwards, R. (1990). Spatial clustering
+#'   for inhomogeneous populations. Journal of the Royal
+#'   Statistical Society. Series B (Methodological), 73-104.
+#'
+#'   Alt, K.W., and Vach, W. (1991). The reconstruction of
+#'   "genetic kinship" in prehistoric burial
+#'   complexes-problems and statistics. Classification, Data
+#'   Analysis, and Knowledge Organization, 299-310.
+#' @examples
 #' data(grave)
 #' qnn.test(grave, q = c(3, 5, 7, 9, 11, 13, 15))
 qnn.test = function(x, q = 5, nsim = 499, case = 2, longlat = FALSE) {
@@ -99,13 +96,23 @@ qnn.test = function(x, q = 5, nsim = 499, case = 2, longlat = FALSE) {
   for (i in 1:ncol(con)) Tcon[i, ] = Tq[con[2, i], ] - Tq[con[1,i], ]
   
   connames = vector("character", ncol(con))
-  for (i in 1:ncol(con)) connames[i] = paste("T",q[con[2,i]]," - T", q[con[1,i]], sep="")
+  for (i in 1:ncol(con)) {
+    connames[i] = paste("T",q[con[2,i]]," - T", q[con[1,i]], sep = "")
+  }
   pcon = rowMeans(Tcon >= Tcon[, nsim + 1]) #calculate p-values
   
-  return(list(qsum = data.frame(q = q, Tq = Tq[,nsim + 1], pvalue = p), 
-              consum = data.frame(contrast = connames, 
-                                  Tcontrast = Tcon[,nsim + 1], pvaluecon = pcon)))
-  
+  cat("Q nearest neighbors test\n\n")
+  cat("case label: ", levels(x$marks)[case], "\n")
+  cat("control label: ", levels(x$marks)[-case], "\n")
+
+  out = list(qsum = data.frame(q = q, Tq = Tq[,nsim + 1], pvalue = p), 
+       consum = data.frame(contrast = connames, 
+                           Tcontrast = Tcon[,nsim + 1], pvalue = pcon))
+  cat("\nSummary of observed test statistics\n\n")
+  print(out$qsum, row.names = FALSE)
+  cat("\nSummary of observed contrasts between test statistics\n\n")
+  print(out$consum, row.names = FALSE)
+  return(invisible(out))
 }
 
 

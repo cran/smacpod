@@ -1,7 +1,7 @@
 #' Difference of estimated K functions
 #' 
 #' \code{kdest} determines the difference in estimated K
-#' functions for a set of cases and controls.  Tolerance
+#' functions for a set of cases and controls.  Non-rejection
 #' envelopes can also be produced.
 #' 
 #' This function relies internally on the 
@@ -12,7 +12,7 @@
 #' and the user is referred there for more details about
 #' the various arguments.
 #' 
-#' @param x A \code{ppp} object from the \code{spatstat}
+#' @param x A \code{\link[spatstat]{ppp}} object 
 #'   package with marks for the case and control groups.
 #' @param case The position of the name of the "case" group 
 #'   in \code{levels(x$marks)}.  The default is 2. 
@@ -22,8 +22,8 @@
 #'   difference in estimated K functions will be calculated
 #'   for \code{nsim} data sets generated under the random
 #'   labeling hypothesis.  These will be used to construct
-#'   the tolerance envelopes.
-#' @param level Level of tolerance envelopes. 
+#'   the non-rejection envelopes.
+#' @param level The level used for the non-rejection envelopes. 
 #'   Ignored if \code{nsim} is 0.
 #' @param domain Optional. Calculations will be restricted
 #'   to this subset of the window. See Details of
@@ -33,8 +33,6 @@
 #' @return Returns a \code{kdenv} object.  See documentation
 #'   for \code{spatstat::Kest}.
 #' @author Joshua French
-#' @import spatstat
-#' @importFrom stats quantile
 #' @export
 #' @seealso \code{\link[spatstat]{Kest}},
 #'   \code{\link[spatstat]{eval.fv}}
@@ -47,7 +45,6 @@
 #' plot(kd1, iso ~ r, ylab = "difference", legend = FALSE, main = "")
 #' kd2 = kdest(grave, nsim = 9, level = 0.8)
 #' plot(kd2)
-
 kdest = function(x, case = 2, nsim = 0, level = 0.95, r = NULL, 
                  rmax = NULL, breaks = NULL, 
                  correction = c("border", "isotropic", "Ripley", "translate"), 
@@ -72,12 +69,12 @@ kdest = function(x, case = 2, nsim = 0, level = 0.95, r = NULL,
              correction = correction, 
              nlarge = nlarge, domain = domain, 
              var.approx = var.approx, ratio = ratio)
-    out = list(out)
+    out = list(out = out)
   } else {
     #min/max envelope
     out = spatstat::envelope(x, kd, case = case, nsim = nsim, 
                              savefuns = TRUE, 
-                             simulate = expression(rlabel(x, permute = TRUE)), 
+                             simulate = expression(spatstat::rlabel(x, permute = TRUE)), 
                              r = r, rmax = rmax, 
                              breaks = breaks, 
                              correction = correction, 
@@ -89,8 +86,13 @@ kdest = function(x, case = 2, nsim = 0, level = 0.95, r = NULL,
     simfuns[,1] <- out$obs
     l = apply(simfuns, 1, stats::quantile, prob  = (1 - level)/2)
     u = apply(simfuns, 1, stats::quantile, prob = 1 - (1 - level)/2)
-    out = list(out, r = out$r, qlo = l, qhi = u)
+    out = list(out = out, qlo = l, qhi = u)
   }
+  out$r = out$out$r
+  out$case_label = levels(x$marks)[case]
+  out$control_label = levels(x$marks)[-case]
+  out$nsim = nsim
+  out$level = level
   class(out) = "kdenv"
   return(out)
 }

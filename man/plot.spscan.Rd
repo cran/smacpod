@@ -4,8 +4,7 @@
 \alias{plot.spscan}
 \title{Plots object from \code{\link{spscan.test}}.}
 \usage{
-\method{plot}{spscan}(x, ..., nv = 100, border = NULL, ccol = NULL,
-  clty = NULL, clwd = NULL)
+\method{plot}{spscan}(x, ..., nv = 100, border = NULL, ccol = NULL, clty = NULL, clwd = NULL)
 }
 \arguments{
 \item{x}{An object of class \code{spscan}.}

@@ -42,11 +42,11 @@ This function determine nearest neighbors in two ways: 1.
 number of neighbors or 2. distance.
 
 If \code{method = "c"}, then \code{k} specifies the total
-number of neighbors to return for each observation.
+number of neighbors to return for each observation.  
 
 If \code{method = "d"}, then \code{k} specifies the maximum
 distance for which an observation is considered a 
-neighbor.
+neighbor.  
 
 The function returns the neighbors for each 
 observation.

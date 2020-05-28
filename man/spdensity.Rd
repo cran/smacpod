@@ -4,10 +4,22 @@
 \alias{spdensity}
 \title{Kernel smoothed spatial density of point pattern}
 \usage{
-spdensity(x, sigma = NULL, ..., weights = NULL, edge = TRUE,
-  varcov = NULL, at = "pixels", leaveoneout = TRUE, adjust = 1,
-  diggle = FALSE, kernel = "gaussian", scalekernel = is.character(kernel),
-  positive = FALSE, verbose = TRUE)
+spdensity(
+  x,
+  sigma = NULL,
+  ...,
+  weights = NULL,
+  edge = TRUE,
+  varcov = NULL,
+  at = "pixels",
+  leaveoneout = TRUE,
+  adjust = 1,
+  diggle = FALSE,
+  kernel = "gaussian",
+  scalekernel = is.character(kernel),
+  positive = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{x}{
@@ -21,8 +33,8 @@ spdensity(x, sigma = NULL, ..., weights = NULL, edge = TRUE,
   }
 
 \item{...}{
-    Additional arguments passed to \code{\link{pixellate.ppp}}
-    and \code{\link{as.mask}} to determine
+    Additional arguments passed to \code{\link[spatstat]{pixellate.ppp}}
+    and \code{\link[spatstat]{as.mask}} to determine
     the pixel resolution, or passed to \code{sigma} if it is a function.
   }
 

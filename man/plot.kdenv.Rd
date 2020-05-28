@@ -4,39 +4,47 @@
 \alias{plot.kdenv}
 \title{Plot a \code{kdenv} object.}
 \usage{
-\method{plot}{kdenv}(x, ..., shadecol1 = "gray56", shadecol2 = "lightgrey",
-  main = "", legend = FALSE)
+\method{plot}{kdenv}(
+  x,
+  ...,
+  shadecol1 = "gray56",
+  shadecol2 = "lightgrey",
+  main = "",
+  legend = FALSE
+)
 }
 \arguments{
-\item{x}{An object of class \code{kdenv} produced by 
+\item{x}{An object of class \code{kdenv} produced by
 \code{\link[smacpod]{kdest}}.}
 
 \item{...}{Additional graphical parameters passed to the
 \code{\link[spatstat]{plot.fv}} function, which is used
 internally for plotting.}
 
-\item{shadecol1}{Shade color for max/min envelopes.  Default is a dark grey.}
+\item{shadecol1}{Shade color for max/min envelopes.
+Default is a dark grey.}
 
-\item{shadecol2}{Shade color for tolerance envelopes.  Default is "lightgrey".}
+\item{shadecol2}{Shade color for non-rejection envelopes.
+Default is "lightgrey".}
 
 \item{main}{A main title for the plot.  Default is blank.}
 
 \item{legend}{Logical for whether a legend should
-automatically be displayed.  Default is \code{FALSE}.  
-See Details for an explanation of the components of 
-the plot.}
+automatically be displayed.  Default is \code{FALSE}.
+See Details for an explanation of the components of the
+plot.}
 }
 \description{
-Plots an object from \code{\link[smacpod]{kdest}} of 
+Plots an object from \code{\link[smacpod]{kdest}} of
 class \code{kdenv}.
 }
 \details{
-The solid line indicates the observed difference in the 
-K functions for the cases and controls.  The dashed line 
-indicates the average difference in the K functions 
-produced from the data sets
-simulated under the random labeling hypothesis when 
-executing the \code{kdest} function.
+The solid line indicates the observed difference in the K
+functions for the cases and controls.  The dashed line
+indicates the average difference in the K functions
+produced from the data sets simulated under the random
+labeling hypothesis when executing the \code{kdest}
+function.
 }
 \examples{
 data(grave)

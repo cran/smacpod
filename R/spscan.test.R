@@ -54,7 +54,6 @@
 #'   second element of the list is the centroid coordinates.
 #'   This is needed for plotting purposes.
 #' @author Joshua French
-#' @import spatstat
 #' @export
 #' @references Kulldorff M., Nagarwalla N. (1995) Spatial
 #'   disease clusters: Detection and Inference. Statistics

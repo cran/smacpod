@@ -4,7 +4,7 @@
 #' functions for cases and controls.  The numerator in this 
 #' ratio is related to the "cases" and the denominator to 
 #' the "controls".  If \code{nsim > 0}, then pointwise 
-#' tolerance intervals are used to assess potential 
+#' non-rejection envelopes are used to assess potential 
 #' clustering of cases and controls relative to each other.
 #' 
 #' The \code{plot} function makes it easy to visualize the
@@ -27,14 +27,14 @@
 #'   \code{x$marks} is assumed to be a factor.  Automatic
 #'   conversion is attempted if it is not.
 #' @param nsim The number of simulated data sets from which 
-#'   to construct the tolerance intervals under the random
+#'   to construct the non-rejection envelopes under the random
 #'   labeling hypothesis.  Default is 0 (i.e., no
-#'   intervals).
-#' @param level The tolerance level used for the pointwise
-#'   tolerance intervals.
+#'   envelopes).
+#' @param level The level used for the pointwise
+#'   non-rejection envelopes.
 #' @param alternative The direction of the significance test
 #'   to identify potential clusters using a Monte Carlo test
-#'   based on the pointwise tolerance intervals.  Default is
+#'   based on the pointwise non-rejection envelopes.  Default is
 #'   \code{"two.sided"} (logrr != 0).  The values \code{"less"}
 #'   (logrr < 0) and \code{"greater"} (logrr > 0) are also valid.
 #' @param bwargs A list of arguments for the bandwidth 
@@ -71,7 +71,6 @@
 #'   of the \code{\link[spatstat]{density.ppp}}) function 
 #'   for consistency with the default behavior of that 
 #'   function)
-#' @import spatstat
 #' @export
 #' @references Waller, L.A. and Gotway, C.A. (2005). Applied
 #'   Spatial Statistics for Public Health Data. Hoboken, NJ:
@@ -152,7 +151,7 @@ logrr = function(x, sigma = NULL, sigmacon = NULL, case = 2,
                 scalekernel = scalekernel,
                 positive = positive, verbose = verbose)
   r$v = log(r$v) - log(g$v)
-  r$tolenv = NULL
+  r$nrenv = NULL
   
   if (nsim > 0) {
     simr2 <- pbapply::pblapply(seq_len(nsim), function(i) {
@@ -182,7 +181,7 @@ logrr = function(x, sigma = NULL, sigmacon = NULL, case = 2,
     simr2 <- abind::abind(simr2, along = 3)
     
     r$simr = simr2
-    r$tolenv = tolenv(r, level = level, alternative = alternative)
+    r$nrenv = nrenv(r, level = level, alternative = alternative)
     class(r) = c("logrrenv", class(r))
   }
   

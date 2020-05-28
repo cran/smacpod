@@ -4,8 +4,10 @@
 \name{grave}
 \alias{grave}
 \title{Medieval Grave Site Data}
-\format{\code{ppp} (planar point process) class object
-  from the \code{spatstat} package.}
+\format{
+\code{ppp} (planar point process) class object
+  from the \code{spatstat} package.
+}
 \source{
 Waller, L.A. and Gotway, C.A. (2005).  Applied
   Spatial Statistics for Public Health Data.  Hoboken,

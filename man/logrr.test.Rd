@@ -2,7 +2,7 @@
 % Please edit documentation in R/logrr.test.R
 \name{logrr.test}
 \alias{logrr.test}
-\title{Global test of clustering using log ratio of spatial 
+\title{Global test of clustering using log ratio of spatial
 densities}
 \usage{
 logrr.test(x)
@@ -12,14 +12,14 @@ logrr.test(x)
 \code{\link{logrr}} function.}
 }
 \value{
-A list providing the observed test statistic 
-  (\code{islogrr}) and the estimated p-value 
+A list providing the observed test statistic
+  (\code{islogrr}) and the estimated p-value
   (\code{pvalue}).
 }
 \description{
-\code{logrr.test} performs a global test of clustering 
-for comparing cases and controls using the log ratio of 
-spatial densities based on the method of Kelsall and 
+\code{logrr.test} performs a global test of clustering
+for comparing cases and controls using the log ratio of
+spatial densities based on the method of Kelsall and
 Diggle (1995).
 }
 \examples{
@@ -30,12 +30,11 @@ logrr.test(logrrenv)
 \references{
 Waller, L.A. and Gotway, C.A. (2005). Applied
   Spatial Statistics for Public Health Data. Hoboken, NJ:
-  Wiley.  
-  
-  Kelsall, Julia E., and Peter J. Diggle. 
-  "Non-parametric estimation of spatial variation in 
-  relative risk." Statistics in Medicine 14.21-22 (1995):
-  2335-2342.
+  Wiley.
+
+  Kelsall, Julia E., and Peter J. Diggle. "Non-parametric
+  estimation of spatial variation in relative risk."
+  Statistics in Medicine 14.21-22 (1995): 2335-2342.
 }
 \author{
 Joshua French

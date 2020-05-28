@@ -4,8 +4,19 @@
 \alias{circles.plot}
 \title{Plot circles}
 \usage{
-circles.plot(coords, r, add = FALSE, ..., nv = 100, border = NULL,
-  ccol = NA, clty = 1, density = NULL, angle = 45, clwd = 1)
+circles.plot(
+  coords,
+  r,
+  add = FALSE,
+  ...,
+  nv = 100,
+  border = NULL,
+  ccol = NA,
+  clty = 1,
+  density = NULL,
+  angle = 45,
+  clwd = 1
+)
 }
 \arguments{
 \item{coords}{A matrix of coordinates with the centroid

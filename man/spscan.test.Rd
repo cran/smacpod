@@ -4,8 +4,15 @@
 \alias{spscan.test}
 \title{Spatial Scan Test}
 \usage{
-spscan.test(x, case = 2, nsim = 499, alpha = 0.1, maxd = NULL,
-  cl = NULL, longlat = FALSE)
+spscan.test(
+  x,
+  case = 2,
+  nsim = 499,
+  alpha = 0.1,
+  maxd = NULL,
+  cl = NULL,
+  longlat = FALSE
+)
 }
 \arguments{
 \item{x}{A \code{ppp} object from the \code{spatstat} 
@@ -29,13 +36,14 @@ consider.  Default is \code{NULL}, i.e., no limit.}
 \item{cl}{
 A cluster object created by \code{\link[parallel]{makeCluster}},
 or an integer to indicate number of child-processes
-(integer values are ignored on Windows) for parallel evaluations.
+(integer values are ignored on Windows) for parallel evaluations
+(see Details on performance).
 }
 
 \item{longlat}{A logical value indicating whether
 Euclidean distance (\code{FALSE}) or Great Circle
-(WGS84 ellipsoid, \code{FALSE}) should be used. 
-Default is \code{FALSE}, i.e., Euclidean distance.}
+(WGS84 ellipsoid, \code{FALSE}) should be used. Default
+is \code{FALSE}, i.e., Euclidean distance.}
 }
 \value{
 Returns a list of length two of class 

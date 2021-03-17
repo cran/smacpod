@@ -10,24 +10,20 @@ noc(x)
 \item{x}{A list containing the potential clusters.}
 }
 \value{
-A vector with the list indices of the 
-  non-overlapping clusters.
+A vector with the list indices of the non-overlapping clusters.
 }
 \description{
-Determine non-overlapping clusters from a list of
-potential clusters.
+Determine non-overlapping clusters from a list of potential clusters.
 }
 \details{
-The function takes a list of potential clusters. Each
-element of the list contains a potential cluster. The
-potential clusters are defined by the location indices of
-the regions comprising the clusters.  Starting with the
-first potential cluster, the function excludes every
-potential cluster that intersects the first (any
-potential cluster that shares indices).  Moving onto the
-next non-overlapping cluster, the process is repeated. 
-The function returns the indices (in the list of
-clusters) of the clusters that do not overlap.
+The function takes a list of potential clusters. Each element of the list
+contains a potential cluster. The potential clusters are defined by the
+location indices of the regions comprising the clusters.  Starting with the
+first potential cluster, the function excludes every potential cluster that
+intersects the first (any potential cluster that shares indices).  Moving
+onto the next non-overlapping cluster, the process is repeated. The function
+returns the indices (in the list of clusters) of the clusters that do not
+overlap.
 }
 \examples{
 x = list(1:2, 1:3, 4:5, 4:6, 7:8)

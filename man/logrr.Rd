@@ -60,8 +60,8 @@ based on the pointwise non-rejection envelopes.  Default is
 (logrr < 0) and \code{"greater"} (logrr > 0) are also valid.}
 
 \item{...}{
-    Additional arguments passed to \code{\link[spatstat]{pixellate.ppp}}
-    and \code{\link[spatstat]{as.mask}} to determine
+    Additional arguments passed to \code{\link{pixellate.ppp}}
+    and \code{\link{as.mask}} to determine
     the pixel resolution, or passed to \code{sigma} if it is a function.
   }
 
@@ -139,7 +139,7 @@ if applicable.}
 The function produces an object of type 
   \code{logrrenv}.  Its components are similar to those 
   returned by the \code{density.ppp} function from the 
-  \code{spatstat} package, with the intensity values 
+  \code{spatstat.core} package, with the intensity values 
   replaced by the log ratio of spatial densities of f and
   g.  Includes an array \code{simr} of dimension c(nx, 
   ny, nsim + 1), where nx and ny are the number of x and 
@@ -185,7 +185,7 @@ The \code{two.sided} alternative test assesses
 data(grave)
 r = logrr(grave)
 plot(r)
-r2 = logrr(grave, sigma = spatstat::bw.scott)
+r2 = logrr(grave, sigma = spatstat.core::bw.scott)
 plot(r2)
 rsim = logrr(grave, nsim = 9)
 plot(rsim)
@@ -204,7 +204,7 @@ Waller, L.A. and Gotway, C.A. (2005). Applied
 }
 \author{
 Joshua French (and a small chunk by the authors 
-  of the \code{\link[spatstat]{density.ppp}}) function 
+  of the \code{\link[spatstat.core]{density.ppp}}) function 
   for consistency with the default behavior of that 
   function)
 }

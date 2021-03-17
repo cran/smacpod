@@ -6,7 +6,7 @@
 \title{Medieval Grave Site Data}
 \format{
 \code{ppp} (planar point process) class object
-  from the \code{spatstat} package.
+  from the \code{spatstat.geom} package.
 }
 \source{
 Waller, L.A. and Gotway, C.A. (2005).  Applied
@@ -19,12 +19,12 @@ data(grave)
 \description{
 This data set contains 143 observations of
   medieval grave site data stored as a \code{ppp} class
-  object from the \code{spatstat} package.  The data are
+  object from the \code{spatstat.geom} package.  The data are
   marked as being "affected" by a tooth deformity or
   "unaffected" by a tooth deformity.
 }
 \seealso{
-\code{\link[spatstat]{ppp}}
+\code{\link[spatstat.geom]{ppp}}
 }
 \author{
 Joshua French

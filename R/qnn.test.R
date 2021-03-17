@@ -4,8 +4,8 @@
 #' nearest neighbors method of comparing case and control
 #' point patterns under the random labeling hypothesis.
 #'
-#' @param x A \code{ppp} object from the \code{spatstat}
-#'   package with marks for the case and control groups.
+#' @param x A \code{\link[spatstat.geom]{ppp}} object with marks for the case
+#'   and control groups.
 #' @param q A vector of positive integers indicating the
 #'   values of \code{q} for which to do the q nearest
 #'   neighbors test.

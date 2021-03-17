@@ -18,8 +18,8 @@
 #' cases where parallelization results in slower 
 #' computations.
 #' 
-#' @param x A \code{ppp} object from the \code{spatstat} 
-#'   package with marks for the case and control groups.
+#' @param x A \code{\link[spatstat.geom]{ppp}} object with marks for the case
+#'   and control groups.
 #' @param case The position of the name of the "case" group 
 #'   in \code{levels(x$marks)}.  The default is 2. 
 #'   \code{x$marks} is assumed to be a factor.  Automatic 

@@ -15,8 +15,8 @@ spscan.test(
 )
 }
 \arguments{
-\item{x}{A \code{ppp} object from the \code{spatstat} 
-package with marks for the case and control groups.}
+\item{x}{A \code{\link[spatstat.geom]{ppp}} object with marks for the case
+and control groups.}
 
 \item{case}{The position of the name of the "case" group 
 in \code{levels(x$marks)}.  The default is 2. 
@@ -34,7 +34,7 @@ a cluster is signficiant.  Default is 0.1.}
 consider.  Default is \code{NULL}, i.e., no limit.}
 
 \item{cl}{
-A cluster object created by \code{\link[parallel]{makeCluster}},
+A cluster object created by \code{\link{makeCluster}},
 or an integer to indicate number of child-processes
 (integer values are ignored on Windows) for parallel evaluations
 (see Details on performance).

@@ -7,8 +7,8 @@
 qnn.test(x, q = 5, nsim = 499, case = 2, longlat = FALSE)
 }
 \arguments{
-\item{x}{A \code{ppp} object from the \code{spatstat}
-package with marks for the case and control groups.}
+\item{x}{A \code{\link[spatstat.geom]{ppp}} object with marks for the case
+and control groups.}
 
 \item{q}{A vector of positive integers indicating the
 values of \code{q} for which to do the q nearest

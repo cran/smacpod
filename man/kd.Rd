@@ -18,8 +18,8 @@ kd(
 )
 }
 \arguments{
-\item{x}{A \code{ppp} object from the \code{spatstat} 
-package with marks for the case and control groups.}
+\item{x}{A \code{\link[spatstat.geom]{ppp}} object with marks for the case
+and control groups.}
 
 \item{case}{The position of the name of the "case" group 
 in \code{levels(x$marks)}.  The default is 2.  
@@ -58,7 +58,7 @@ conversion is attempted if it is not.}
 
 \item{domain}{Optional. Calculations will be restricted 
 to this subset of the window. See Details of 
-\code{\link[spatstat]{Kest}}.}
+\code{\link[spatstat.core]{Kest}}.}
 
 \item{var.approx}{Logical. If \code{TRUE}, the approximate
     variance of \eqn{\hat K(r)}{Kest(r)} under CSR
@@ -74,7 +74,7 @@ to this subset of the window. See Details of
 }
 \value{
 Returns an \code{fv} object.  See documentation 
-  for \code{spatstat::Kest}.
+  for \code{spatstat.core::Kest}.
 }
 \description{
 \code{kd} determines the difference in estimated K 
@@ -82,10 +82,10 @@ functions for a set of cases and controls.
 }
 \details{
 This function relies internally on the 
-\code{\link[spatstat]{Kest}} and 
-\code{\link[spatstat]{eval.fv}} functions from the 
-\code{spatstat} package.  The arguments are essentially
-the same as the \code{\link[spatstat]{Kest}} function, 
+\code{\link[spatstat.core]{Kest}} and 
+\code{\link[spatstat.core]{eval.fv}} functions from the 
+\code{spatstat.core} package.  The arguments are essentially
+the same as the \code{\link[spatstat.core]{Kest}} function, 
 and the user is referred there for more details about
 the various arguments.
 }
@@ -100,8 +100,8 @@ Waller, L.A. and Gotway, C.A. (2005). Applied
   Wiley.
 }
 \seealso{
-\code{\link[spatstat]{Kest}}, 
-  \code{\link[spatstat]{eval.fv}}
+\code{\link[spatstat.core]{Kest}}, 
+  \code{\link[spatstat.core]{eval.fv}}
 }
 \author{
 Joshua French

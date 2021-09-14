@@ -189,6 +189,8 @@ r2 = logrr(grave, sigma = spatstat.core::bw.scott)
 plot(r2)
 rsim = logrr(grave, nsim = 9)
 plot(rsim)
+grad = gradient.color.scale(min(rsim$v, na.rm = TRUE), max(rsim$v, na.rm = TRUE))
+plot(rsim, col = grad$col, breaks = grad$breaks)
 }
 \references{
 Waller, L.A. and Gotway, C.A. (2005). Applied

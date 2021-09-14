@@ -27,9 +27,10 @@ spdensity(
   }
 
 \item{sigma}{
-    Standard deviation of isotropic smoothing kernel.
-    Either a numerical value, or a function that computes an
-    appropriate value of \code{sigma}.
+    The smoothing bandwidth (the amount of smoothing).
+    The standard deviation of the isotropic smoothing kernel.
+    Either a numerical value, 
+    or a function that computes an appropriate value of \code{sigma}.
   }
 
 \item{...}{

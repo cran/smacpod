@@ -41,20 +41,13 @@
 #' @examples
 #' data(grave)
 #' qnn.test(grave, q = c(3, 5, 7, 9, 11, 13, 15))
-qnn.test = function(x, q = 5, nsim = 499, case = 2, longlat = FALSE) {
-  
-  if (!is.element("ppp", class(x))) stop("x must be a ppp object")
-  if (is.null(x$marks)) stop("x must be marked as cases or controls")
-  if (!is.factor(x$marks)) {
-    message("converting marks(x) to a factor")
-    x$marks <- factor(x$marks)
-  }
-  if (!is.factor(x$marks)) stop("The marks(x) must be a factor")
-  nlev = length(levels(x$marks))
-  if (case < 1 || case > nlev) stop("case must be an integer between 1 and length(levels(x$marks))")
-  if (nsim < 0 | !is.finite(nsim)) stop("nsim must be a non-negative integer")
-  if (length(longlat) != 1) stop("longlat should be a single logical value")
-  if (!is.logical(longlat)) stop("longlat should be a single logical value")
+qnn.test = function(x, q = 5, case = 2, nsim = 499, longlat = FALSE) {
+  # check arguments
+  x = arg_check_ppp_marks(x)
+  arg_check_q(q)
+  case = arg_check_case(case, x)
+  arg_check_nsim(nsim)
+  arg_check_longlat(longlat)
   
   # the case and index of cases
   casename = levels(x$marks)[case]

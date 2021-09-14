@@ -4,7 +4,7 @@
 \alias{qnn.test}
 \title{q Nearest Neighbors Test}
 \usage{
-qnn.test(x, q = 5, nsim = 499, case = 2, longlat = FALSE)
+qnn.test(x, q = 5, case = 2, nsim = 499, longlat = FALSE)
 }
 \arguments{
 \item{x}{A \code{\link[spatstat.geom]{ppp}} object with marks for the case
@@ -14,11 +14,11 @@ and control groups.}
 values of \code{q} for which to do the q nearest
 neighbors test.}
 
-\item{nsim}{The number of simulations from which to
-compute p-value.}
-
 \item{case}{The position of the name of the "case" group
 in levels(x$marks).  The default is 2.}
+
+\item{nsim}{The number of simulations from which to
+compute p-value.}
 
 \item{longlat}{A logical value indicating whether
 Euclidean distance (\code{FALSE}) or Great Circle

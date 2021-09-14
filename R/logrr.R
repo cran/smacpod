@@ -90,6 +90,8 @@
 #' plot(r2)
 #' rsim = logrr(grave, nsim = 9)
 #' plot(rsim)
+#' grad = gradient.color.scale(min(rsim$v, na.rm = TRUE), max(rsim$v, na.rm = TRUE))
+#' plot(rsim, col = grad$col, breaks = grad$breaks)
 logrr = function(x, sigma = NULL, sigmacon = NULL, case = 2, 
                  nsim = 0, level = 0.90, alternative = "two.sided", ..., 
                  bwargs = list(), weights = NULL, edge = TRUE, 
@@ -98,18 +100,14 @@ logrr = function(x, sigma = NULL, sigmacon = NULL, case = 2,
                  kernel = "gaussian",
                  scalekernel = is.character(kernel),
                  positive = FALSE, verbose = TRUE) {
-  if (!is.element("ppp", class(x))) stop("x must be a ppp object")
-  if (is.null(x$marks)) stop("x must be marked as cases or controls")
-  if (!is.factor(x$marks)) {
-    message("converting marks(x) to a factor")
-    x$marks <- factor(x$marks)
-  }
-  if (!is.factor(x$marks)) stop("The marks(x) must be a factor")
-  nlev = length(levels(x$marks))
-  if (case < 1 || case > nlev) stop("case must be an integer between 1 and length(levels(x$marks))")
-  if (nsim < 0 | !is.finite(nsim)) stop("nsim must be a non-negative integer")
-  if (level <= 0 | level >= 1) stop("level must be between 0 and 1.")
-  if (!is.element(alternative, c("two.sided", "greater", "lower"))) stop("alternative is not valid.")
+  # check argument validity
+  x = arg_check_ppp_marks(x)
+  case = arg_check_case(case, x)
+  arg_check_nsim(nsim)
+  arg_check_level(level)
+  arg_check_alternative(alternative)
+
+  
   alpha = 1 - level
 
   # determine bandwidth if necessary
@@ -188,5 +186,4 @@ logrr = function(x, sigma = NULL, sigmacon = NULL, case = 2,
   r$window = x$window
   return(r)
 }
-
 

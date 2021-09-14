@@ -74,17 +74,10 @@
 spscan.test <- 
   function(x, case = 2, nsim = 499, alpha = 0.1, 
             maxd = NULL, cl = NULL, longlat = FALSE) {
-    if (!is.element("ppp", class(x))) stop("x must be a ppp object")
-    if (is.null(x$marks)) stop("x must be marked as cases or controls")
-    if (!is.factor(x$marks)) {
-      message("converting marks(x) to a factor")
-      x$marks <- factor(x$marks)
-    }
-    if (!is.factor(x$marks)) stop("The marks(x) must be a factor")
-    nlev = length(levels(x$marks))
-    if (case < 1 || case > nlev) stop("case must be an integer between 1 and length(levels(x$marks))")
-    if (nsim < 0 | !is.finite(nsim)) stop("nsim must be a non-negative integer")
-    
+    x = arg_check_ppp_marks(x)
+    case = arg_check_case(case, x)
+    arg_check_nsim(nsim)
+
     idxcase = which(x$marks == levels(x$marks)[case])
     N = x$n
     N1 = length(idxcase)

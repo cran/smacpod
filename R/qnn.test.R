@@ -11,12 +11,11 @@
 #'   neighbors test.
 #' @param nsim The number of simulations from which to
 #'   compute p-value.
-#' @param case The position of the name of the "case" group
-#'   in levels(x$marks).  The default is 2.
 #' @param longlat A logical value indicating whether
 #'   Euclidean distance (\code{FALSE}) or Great Circle
 #'   (WGS84 ellipsoid, \code{FALSE}) should be used. Default
 #'   is \code{FALSE}, i.e., Euclidean distance.
+#' @inheritParams logrr
 #'
 #' @return Returns a list with the following components:
 #'   \item{qsum}{A dataframe with the number of neighbors
@@ -40,7 +39,7 @@
 #'   Analysis, and Knowledge Organization, 299-310.
 #' @examples
 #' data(grave)
-#' qnn.test(grave, q = c(3, 5, 7, 9, 11, 13, 15))
+#' qnn.test(grave, case = "affected", q = c(3, 5, 7, 9, 11, 13, 15))
 qnn.test = function(x, q = 5, case = 2, nsim = 499, longlat = FALSE) {
   # check arguments
   x = arg_check_ppp_marks(x)

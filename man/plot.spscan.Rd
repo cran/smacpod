@@ -12,7 +12,7 @@
 \item{...}{Additional graphical parameters passed to the
 \code{\link[spatstat.geom]{plot.ppp}} function.}
 
-\item{nv}{The number of verticies to draw the cluster 
+\item{nv}{The number of vertices when drawing the cluster 
 circles. Default is 100.}
 
 \item{border}{The border color of the circle.  Default is
@@ -39,8 +39,15 @@ vectors must match \code{nrow(x$coords)}.
 }
 \examples{
 data(grave)
-out = spscan.test(grave, case = 2, alpha = 0.1)
-plot(out, chars = c(1, 20), main = "most likely cluster")
+out = spscan.test(grave, case = 2, alpha = 0.1, nsim = 49)
+plot(out, chars = c(1, 20), main = "most likely cluster",
+     border = "orange", ccol = NA)
+# change color, lty, lwd of circles
+set.seed(2)
+out2 = spscan.test(grave, case = 2, alpha = 0.8, nsim = 49)
+plot(out2, chars = c(1, 20),  border = "blue")
+plot(out2, chars = c(1, 20),  border = c("blue", "orange"),
+     clwd = c(3, 2), clty = c(2, 3))
 }
 \seealso{
 \code{\link[spatstat.geom]{plot.ppp}}, \code{\link[plotrix]{draw.circle}}

@@ -23,13 +23,16 @@ in estimated K functions.
 }
 \examples{
 data(grave)
-kdsim = kdest(grave, nsim = 9)
-kdplus.test(kdsim)
+# construct envelopes for differences in estimated K functions
+kdenv = kdest(grave, nsim = 9)
+kdplus.test(kdenv)
 }
 \references{
 Waller, L.A. and Gotway, C.A. (2005).
   Applied Spatial Statistics for Public Health Data.
-  Hoboken, NJ: Wiley.  Diggle, Peter J., and Amanda G.
+  Hoboken, NJ: Wiley.  
+  
+  Diggle, Peter J., and Amanda G.
   Chetwynd. "Second-order analysis of spatial clustering
   for inhomogeneous populations." Biometrics (1991):
   1155-1163.

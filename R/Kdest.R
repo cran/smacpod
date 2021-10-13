@@ -1,33 +1,23 @@
 #' Difference of estimated K functions
+#'
+#' \code{kdest} computes the difference in estimated K functions for a set of
+#' cases and controls, with \code{KD(r) = K_case(r) - K_control(r)} denoting the
+#' estimated difference at distance \code{r}. If \code{nsim > 0}, then pointwise
+#' tolerance envelopes for \code{KD(r)} are constructed under the random
+#' labeling hypothesis for each distance \code{r}. The \code{summary} function
+#' can be used to determine the distances for which \code{KD(r)} is above or
+#' below the tolerance envelopes. The \code{plot} function will plot
+#' \code{KD(r)} versus r, along with the tolerance envelopes, the min/max
+#' envelopes of \code{KD(r)} simulated under the random labeling hypothesis, and
+#' the average KD(r) under the random labeling hypothesis.
+#'
+#' This function relies internally on the \code{\link[spatstat.core]{Kest}} and
+#' \code{\link[spatstat.core]{eval.fv}} functions from the \code{spatstat}
+#' package.  The arguments are essentially the same as the
+#' \code{\link[spatstat.core]{Kest}} function, and the user is referred there
+#' for more details about the various arguments.
 #' 
-#' \code{kdest} determines the difference in estimated K
-#' functions for a set of cases and controls.  Non-rejection
-#' envelopes can also be produced.
-#' 
-#' This function relies internally on the 
-#' \code{\link[spatstat.core]{Kest}} and 
-#' \code{\link[spatstat.core]{eval.fv}} functions from the 
-#' \code{spatstat} package.  The arguments are essentially
-#' the same as the \code{\link[spatstat.core]{Kest}} function, 
-#' and the user is referred there for more details about
-#' the various arguments.
-#' 
-#' @param x A \code{\link[spatstat.geom]{ppp}} object 
-#'   package with marks for the case and control groups.
-#' @param case The position of the name of the "case" group 
-#'   in \code{levels(x$marks)}.  The default is 2. 
-#'   \code{x$marks} is assumed to be a factor.  Automatic 
-#'   conversion is attempted if it is not.
-#' @param nsim An non-negative integer.  Default is 0.  The
-#'   difference in estimated K functions will be calculated
-#'   for \code{nsim} data sets generated under the random
-#'   labeling hypothesis.  These will be used to construct
-#'   the non-rejection envelopes.
-#' @param level The level used for the non-rejection envelopes. 
-#'   Ignored if \code{nsim} is 0.
-#' @param domain Optional. Calculations will be restricted
-#'   to this subset of the window. See Details of
-#'   \code{\link[spatstat.core]{Kest}}.
+#' @inheritParams logrr   
 #' @inheritParams spatstat.core::Kest
 #'   
 #' @return Returns a \code{kdenv} object.  See documentation
@@ -41,17 +31,24 @@
 #'   Hoboken, NJ: Wiley.
 #' @examples 
 #' data(grave)
-#' kd1 = kdest(grave)
+#' # estimate and plot KD(r)
+#' kd1 = kdest(grave, case = "affected")
 #' plot(kd1, iso ~ r, ylab = "difference", legend = FALSE, main = "")
-#' kd2 = kdest(grave, nsim = 9, level = 0.8)
+#' kd2 = kdest(grave, case = 2, nsim = 9, level = 0.8)
+#' kd2 # print object
+#' summary(kd2) # summarize distances KD(r) outside envelopes
 #' plot(kd2)
+#' # manually add legend
+#' legend("bottomright", legend = c("obs", "avg", "max/min env", "95% env"),
+#'        lty = c(1, 2, 1, 2), col = c("black", "red", "darkgrey", "lightgrey"),
+#'        lwd = c(1, 1, 10, 10))
 kdest = function(x, case = 2, nsim = 0, level = 0.95, r = NULL, 
                  rmax = NULL, breaks = NULL, 
                  correction = c("border", "isotropic", "Ripley", "translate"), 
                  nlarge = 3000, domain = NULL, 
                  var.approx = FALSE, ratio = FALSE) {
   x = arg_check_ppp_marks(x)
-  cases = arg_check_case(case, x)
+  case = arg_check_case(case, x)
   arg_check_nsim(nsim)
   arg_check_level(level)
 
@@ -85,6 +82,7 @@ kdest = function(x, case = 2, nsim = 0, level = 0.95, r = NULL,
   out$control_label = levels(x$marks)[-case]
   out$nsim = nsim
   out$level = level
+  out$rlim = range(out$r)
   class(out) = "kdenv"
   return(out)
 }

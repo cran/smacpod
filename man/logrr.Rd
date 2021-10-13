@@ -28,36 +28,34 @@ logrr(
 )
 }
 \arguments{
-\item{x}{
-    Point pattern (object of class \code{"ppp"}).
-  }
-
-\item{sigma}{Standard deviation of isotropic smoothing
-kernel for cases. Either a numerical value, or a function that
-computes an appropriate value of \code{sigma}.}
-
-\item{sigmacon}{Standard deviation of isotropic smoothing
-kernel for controls.  Default is the same as 
-\code{sigma}.}
-
-\item{case}{The position of the name of the "case" group 
-in \code{levels(x$marks)}.  The default is 2.  
-\code{x$marks} is assumed to be a factor.  Automatic
+\item{x}{A \code{\link[spatstat.geom]{ppp}} object 
+package with marks for the case and control groups.
+\code{x$marks} is assumed to be a factor.  Automatic 
 conversion is attempted if it is not.}
 
-\item{nsim}{The number of simulated data sets from which 
-to construct the non-rejection envelopes under the random
-labeling hypothesis.  Default is 0 (i.e., no
-envelopes).}
+\item{sigma}{Standard deviation of isotropic smoothing kernel for cases.
+Either a numerical value, or a function that computes an appropriate value
+of \code{sigma}. If not specified, then
+\code{\link[spatstat.core]{bw.relrisk}} is used.}
 
-\item{level}{The level used for the pointwise
-non-rejection envelopes.}
+\item{sigmacon}{Standard deviation of isotropic smoothing kernel for
+controls.  Default is the same as \code{sigma}.}
 
-\item{alternative}{The direction of the significance test
-to identify potential clusters using a Monte Carlo test
-based on the pointwise non-rejection envelopes.  Default is
-\code{"two.sided"} (logrr != 0).  The values \code{"less"}
-(logrr < 0) and \code{"greater"} (logrr > 0) are also valid.}
+\item{case}{The name of the desired "case" group in \code{levels(x$marks)}.
+Alternatively, the position of the name of the "case" group in
+\code{levels(x$marks)}.  Since we don't know the group names, the default
+is 2, the second position of \code{levels(x$marks)}. \code{x$marks} is
+assumed to be a factor.  Automatic conversion is attempted if it is not.}
+
+\item{nsim}{The number of simulated data sets from which to construct
+tolerance envelopes under the random labeling hypothesis.  The default is 0
+(i.e., no envelopes).}
+
+\item{level}{The level of the tolerance envelopes.}
+
+\item{alternative}{The type of envelopes to construct.  The default is
+\code{"two.sided"} (upper and lower envelopes).  The values \code{"less"}
+(lower envelope) and \code{"greater"} (upper envelope) are also valid.}
 
 \item{...}{
     Additional arguments passed to \code{\link{pixellate.ppp}}
@@ -65,9 +63,8 @@ based on the pointwise non-rejection envelopes.  Default is
     the pixel resolution, or passed to \code{sigma} if it is a function.
   }
 
-\item{bwargs}{A list of arguments for the bandwidth 
-function supplied to \code{sigma} and \code{sigmacon},
-if applicable.}
+\item{bwargs}{A list of arguments for the bandwidth function supplied to
+\code{sigma} and \code{sigmacon}, if applicable.}
 
 \item{weights}{
     Optional weights to be attached to the points.
@@ -136,77 +133,84 @@ if applicable.}
   }
 }
 \value{
-The function produces an object of type 
-  \code{logrrenv}.  Its components are similar to those 
-  returned by the \code{density.ppp} function from the 
-  \code{spatstat.core} package, with the intensity values 
-  replaced by the log ratio of spatial densities of f and
-  g.  Includes an array \code{simr} of dimension c(nx, 
-  ny, nsim + 1), where nx and ny are the number of x and 
-  y grid points used to estimate the spatial density. 
-  \code{simr[,,1]} is the log ratio of spatial densities 
-  for the observed data, and the remaining \code{nsim} 
-  elements in the third dimension of the array are the 
-  log ratios of spatial densities from a new ppp 
-  simulated under the random labeling hypothesis.
+The function produces an object of type \code{logrrenv}.  Its
+  components are similar to those returned by the \code{density.ppp} function
+  from the \code{spatstat.core} package, with the intensity values replaced
+  by the log ratio of spatial densities of f and g.  Includes an array
+  \code{simr} of dimension c(nx, ny, nsim + 1), where nx and ny are the
+  number of x and y grid points used to estimate the spatial density.
+  \code{simr[,,1]} is the log ratio of spatial densities for the observed
+  data, and the remaining \code{nsim} elements in the third dimension of the
+  array are the log ratios of spatial densities from a new ppp simulated
+  under the random labeling hypothesis.
 }
 \description{
-\code{logrr} computes the log ratio of spatial density 
-functions for cases and controls.  The numerator in this 
-ratio is related to the "cases" and the denominator to 
-the "controls".  If \code{nsim > 0}, then pointwise 
-non-rejection envelopes are used to assess potential 
-clustering of cases and controls relative to each other.
+\code{logrr} computes the estimated log relative risk of cases relative to
+controls. The log relative risk at location s is defined as \code{r(s) =
+ln(f(s)/g(s))}. The numerator, \code{f(s)}, is the spatial density of the
+case group. The denominator, \code{g(s)}, is the spatial density of the
+control group. If \code{nsim > 0}, then pointwise (at each pixel) tolerance
+envelopes are estimated under the random labeling hypothesis. The tolerance
+envelopes can be used to assess pixels where the log relative risk differs
+significantly from zero. See Details.
 }
 \details{
-The \code{plot} function makes it easy to visualize the
-log ratio of spatial densities (if \code{nsim = 0}) or
-the regions where the log ratio deviates farther from
-than what is expected under the random labeling 
-hypothesis (i.e., the locations of potential clustering).
-The shaded regions indicate the locations of potential
-clustering.
+If \code{nsim=0}, the \code{plot} function creates a heat map of the log
+relative risk. If \code{nsim > 0}, the \code{plot} function colors the pixels
+where the estimated log relative risk is outside the tolerance envelopes
+created under the random labeling hypothesis (i.e., pixels with potential
+clustering of cases or controls). Colored regions with values above 0
+indicate a cluster of cases relative to controls (without controlling for
+multiple comparisons), i.e., a region where the the density of the cases is
+greater than the the density of the controls. Colored regions with values
+below 0 indicate a cluster of controls relative to cases (without controlling
+for multiple comparisons), i.e., a region where the density of the controls
+is greater than the density of the cases.
 
-The \code{two.sided} alternative test assesses 
-  whether the observed ratio of log densities deviates 
-  more than what is expected under the random labeling 
-  hypothesis.  When the test is significant, this 
-  suggests that the cases and controls are clustered, 
-  relative to the other.  The \code{greater} alternative 
-  assesses whehter the cases are more clustered than
-  the controls.  The \code{less} alternative
-  assesses whether the controls are more clustered than 
-  the cases.  If the estimated density of the case or 
-  control group becomes too small, this function may 
-  produce warnings due to numerical underflow. Increasing
-  the bandwidth (sigma) may help.
+The \code{two.sided} alternative test constructs two-sided tolerance
+envelopes to assess whether the estimated \code{r(s)} deviates more than what
+is expected under the random labeling hypothesis.  The \code{greater}
+alternative constructs an upper tolerance envelope to assess whether the
+estimated \code{r(s)} is greater than what is expected under the random
+labeling hypothesis, i.e., where there is clustering of cases relative to
+controls. The \code{lower} alternative constructs a lower tolerance envelope
+to assess whether the estimated \code{r(s)} is lower than what is expected
+under the random labeling hypothesis, i.e., where there is clustering of
+controls relative to cases.
+
+If the estimated density of the case or control group becomes too small, this
+function may produce warnings due to numerical underflow. Increasing the
+bandwidth (\code{sigma}) may help.
 }
 \examples{
 data(grave)
-r = logrr(grave)
+# estimate and plot log relative risk
+r = logrr(grave, case = "affected")
 plot(r)
-r2 = logrr(grave, sigma = spatstat.core::bw.scott)
+# use scott's bandwidth
+r2 = logrr(grave, case = 2, sigma = spatstat.core::bw.scott)
 plot(r2)
-rsim = logrr(grave, nsim = 9)
-plot(rsim)
-grad = gradient.color.scale(min(rsim$v, na.rm = TRUE), max(rsim$v, na.rm = TRUE))
-plot(rsim, col = grad$col, breaks = grad$breaks)
+# construct pointwise tolerance envelopes for log relative risk
+renv = logrr(grave, nsim = 9)
+print(renv) # print information about envelopes
+plot(renv) # plot results
+# plot using a better gradient
+grad = gradient.color.scale(min(renv$v, na.rm = TRUE), max(renv$v, na.rm = TRUE))
+plot(renv, col = grad$col, breaks = grad$breaks)
 }
 \references{
-Waller, L.A. and Gotway, C.A. (2005). Applied
-  Spatial Statistics for Public Health Data. Hoboken, NJ:
-  Wiley.  
-  
-  Kelsall, Julia E., and Peter J. Diggle. "Kernel
-  estimation of relative risk." Bernoulli (1995): 3-16. 
-  
-  Kelsall, Julia E., and Peter J. Diggle. "Non-parametric
-  estimation of spatial variation in relative risk." 
-  Statistics in Medicine 14.21-22 (1995): 2335-2342.
+Waller, L.A. and Gotway, C.A. (2005). Applied Spatial Statistics
+  for Public Health Data. Hoboken, NJ: Wiley.
+
+  Kelsall, Julia E., and Peter J. Diggle. "Kernel estimation of relative
+  risk." Bernoulli (1995): 3-16.
+
+  Kelsall, Julia E., and Peter J. Diggle. "Non-parametric estimation of
+  spatial variation in relative risk." Statistics in Medicine 14.21-22
+  (1995): 2335-2342.
 }
 \author{
-Joshua French (and a small chunk by the authors 
-  of the \code{\link[spatstat.core]{density.ppp}}) function 
-  for consistency with the default behavior of that 
-  function)
+Joshua French (and a small chunk by the authors of the
+  \code{\link[spatstat.core]{density.ppp}}) function for consistency with the
+  default behavior of that function).
 }

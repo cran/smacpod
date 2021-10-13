@@ -18,20 +18,20 @@ spscan.test(
 \item{x}{A \code{\link[spatstat.geom]{ppp}} object with marks for the case
 and control groups.}
 
-\item{case}{The position of the name of the "case" group 
-in \code{levels(x$marks)}.  The default is 2. 
-\code{x$marks} is assumed to be a factor.  Automatic 
-conversion is attempted if it is not.}
+\item{case}{The name of the desired "case" group in \code{levels(x$marks)}.
+Alternatively, the position of the name of the "case" group in
+\code{levels(x$marks)}.  Since we don't know the group names, the default
+is 2, the second position of \code{levels(x$marks)}. \code{x$marks} is
+assumed to be a factor.  Automatic conversion is attempted if it is not.}
 
-\item{nsim}{The number of simulations from which to 
-compute the p-value.  A non-negative integer.  Default 
-is 499.}
+\item{nsim}{The number of simulations from which to compute the p-value.  A
+non-negative integer.  Default is 499.}
 
-\item{alpha}{The significance level to determine whether 
-a cluster is signficiant.  Default is 0.1.}
+\item{alpha}{The significance level to determine whether a cluster is
+signficant.  Default is 0.1.}
 
-\item{maxd}{The radius of the largest possible cluster to
-consider.  Default is \code{NULL}, i.e., no limit.}
+\item{maxd}{The radius of the largest possible cluster to consider.  Default
+is \code{NULL}, i.e., half the maximum intercentroid distance.}
 
 \item{cl}{
 A cluster object created by \code{\link{makeCluster}},
@@ -48,50 +48,64 @@ is \code{FALSE}, i.e., Euclidean distance.}
 \value{
 Returns a list of length two of class 
   \code{scan}. The first element (clusters) is a list 
-  containing the significant, non-ovlappering clusters, 
-  and has the the following components: \item{coords}{The
-  centroid of the significant clusters.} \item{r}{The 
-  radius of the window of the clusters.} \item{pop}{The 
+  containing the significant, non-overlapping clusters, 
+  and has the the following components: 
+  \item{coords}{The
+  centroid of the significant clusters.} 
+  \item{r}{The 
+  radius of the window of the clusters.} 
+  \item{pop}{The 
   total population in the cluser window.} 
   \item{cases}{The observed number of cases in the 
-  cluster window.} \item{expected}{The expected number of
-  cases in the cluster window.} \item{smr}{Standarized 
+  cluster window.} 
+  \item{expected}{The expected number of
+  cases in the cluster window.} 
+  \item{smr}{Standarized 
   mortaility ratio (observed/expected) in the cluster 
-  window.} \item{rr}{Relative risk in the cluster 
+  window.} 
+  \item{rr}{Relative risk in the cluster 
   window.} \item{propcases}{Proportion of cases in the 
-  cluster window.} \item{loglikrat}{The loglikelihood 
+  cluster window.} 
+  \item{loglikrat}{The loglikelihood 
   ratio for the cluster window (i.e., the log of the test
-  statistic).} \item{pvalue}{The pvalue of the test 
-  statistic associated with the cluster window.} The 
-  second element of the list is the centroid coordinates.
-  This is needed for plotting purposes.
+  statistic).} 
+  \item{pvalue}{The pvalue of the test 
+  statistic associated with the cluster window.} 
+  
+  Various additional pieces of information are included for plotting,
+  printing
 }
 \description{
-\code{spscan.test} performs the spatial scan test of 
-Kulldorf (1997) for case/control point data.
+\code{spscan.test} performs the spatial scan test of Kulldorf (1997) for
+case/control point data.
 }
 \details{
-The test is performed using the random labeling 
-hypothesis.  The windows are circular and extend from the
-observed data locations.  The clusters returned are 
-non-overlapping, ordered from most significant to least 
-significant.  The first cluster is the most likely to be 
-a cluster.  If no significant clusters are found, then 
-the most likely cluster is returned (along with a 
-warning).
+The test is performed using the random labeling hypothesis.  The windows are
+circular and extend from the observed data locations.  The clusters returned
+are non-overlapping, ordered from most significant to least significant.  The
+first cluster is the most likely to be a cluster.  If no significant clusters
+are found, then the most likely cluster is returned (along with a warning).
 
-Setting \code{cl} to a positive integer MAY speed up 
-computations on non-Windows computers.  However, 
-parallelization does have overhead cost, and there are 
-cases where parallelization results in slower 
-computations.
+Setting \code{cl} to a positive integer MAY speed up computations on
+non-Windows computers.  However, parallelization does have overhead cost, and
+there are cases where parallelization results in slower computations.
 }
 \examples{
 data(grave)
-out = spscan.test(grave, nsim = 99)
+# apply scan method
+out = spscan.test(grave, case = "affected", nsim = 99)
+# print scan object
+out
+print(out, extra = TRUE)
+# summarize results
+summary(out)
+# plot results
 plot(out, chars = c(1, 20), main = "most likely cluster")
+# extract clusters from out 
+# each element of the list gives the location index of the events in each cluster
+clusters(out)
 # get warning if no significant cluster
-out2 = spscan.test(grave, alpha = 0.001, nsim = 99)
+out2 = spscan.test(grave, case = 2, alpha = 0.001, nsim = 99)
 }
 \references{
 Kulldorff M., Nagarwalla N. (1995) Spatial

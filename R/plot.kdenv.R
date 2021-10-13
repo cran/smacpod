@@ -8,18 +8,21 @@
 #' indicates the average difference in the K functions
 #' produced from the data sets simulated under the random
 #' labeling hypothesis when executing the \code{kdest}
-#' function.
+#' function. The shaded areas indicate the tolerance envelopes
+#' constructed in \code{x} for tolerance level \code{level} and
+#' the min/max envelopes constructed under the random labeling
+#' hypothesis.
 #'
 #' @param x An object of class \code{kdenv} produced by
 #'   \code{\link[smacpod]{kdest}}.
 #' @param ... Additional graphical parameters passed to the
 #'   \code{\link[spatstat.core]{plot.fv}} function, which is used
 #'   internally for plotting.
-#' @param shadecol1 Shade color for max/min envelopes.
-#'   Default is a dark grey.
+#' @param shadecol1 Color for min/max tolerance envelopes generated under the random labeling hypothesis.
+#'   The default is a dark grey.
 #' @param shadecol2 Shade color for non-rejection envelopes.
-#'   Default is "lightgrey".
-#' @param main A main title for the plot.  Default is blank.
+#'   The default is \code{"lightgrey"}.
+#' @param main A main title for the plot.  The default is blank.
 #' @param legend Logical for whether a legend should
 #'   automatically be displayed.  Default is \code{FALSE}.
 #'   See Details for an explanation of the components of the
@@ -29,10 +32,10 @@
 #' @export
 #' @examples
 #' data(grave)
-#' kd1 = kdest(grave, nsim = 19, level = 0.9)
-#' plot(kd1)
-#' plot(kd1, legend = TRUE)
-plot.kdenv = function(x, ..., shadecol1 = "gray56", shadecol2 = "lightgrey", main = "", legend = FALSE) {
+#' kdenv = kdest(grave, nsim = 19, level = 0.9)
+#' plot(kdenv)
+#' plot(kdenv, legend = TRUE)
+plot.kdenv = function(x, ..., shadecol1 = "darkgrey", shadecol2 = "lightgrey", main = "", legend = FALSE) {
   if (!is.element("kdenv", class(x))) stop("x should be an object from kdest function")
   # if there were no simulations
   if (length(x) == 1) spatstat.core::plot.fv(x[[1]], main = main, legend = legend, ...)

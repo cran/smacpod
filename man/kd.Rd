@@ -21,10 +21,11 @@ kd(
 \item{x}{A \code{\link[spatstat.geom]{ppp}} object with marks for the case
 and control groups.}
 
-\item{case}{The position of the name of the "case" group 
-in \code{levels(x$marks)}.  The default is 2.  
-\code{x$marks} is assumed to be a factor.  Automatic
-conversion is attempted if it is not.}
+\item{case}{The name of the desired "case" group in \code{levels(x$marks)}.
+Alternatively, the position of the name of the "case" group in
+\code{levels(x$marks)}.  Since we don't know the group names, the default
+is 2, the second position of \code{levels(x$marks)}. \code{x$marks} is
+assumed to be a factor.  Automatic conversion is attempted if it is not.}
 
 \item{r}{
     Optional. Vector of values for the argument \eqn{r} at which \eqn{K(r)} 

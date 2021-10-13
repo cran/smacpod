@@ -1,2 +1,3 @@
-require(testthat)
-test_check("smacpod")
+if (require(testthat)){
+  test_check("smacpod")
+}

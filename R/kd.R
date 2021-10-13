@@ -13,13 +13,10 @@
 #' 
 #' @param x A \code{\link[spatstat.geom]{ppp}} object with marks for the case
 #'   and control groups.
-#' @param case The position of the name of the "case" group 
-#'   in \code{levels(x$marks)}.  The default is 2.  
-#'   \code{x$marks} is assumed to be a factor.  Automatic
-#'   conversion is attempted if it is not.
 #' @param domain Optional. Calculations will be restricted 
 #'   to this subset of the window. See Details of 
 #'   \code{\link[spatstat.core]{Kest}}.
+#' @inheritParams logrr
 #' @inheritParams spatstat.core::Kest
 #'   
 #' @return Returns an \code{fv} object.  See documentation 
@@ -40,6 +37,9 @@ kd = function(x, case = 2, r = NULL, rmax = NULL,
               correction = c("border", "isotropic", "Ripley", "translate"), 
               nlarge = 3000, domain = NULL, 
               var.approx = FALSE, ratio = FALSE) {
+  # select case based on number or text
+  case = suppressMessages(arg_check_case(case, x))
+  # which observations are cases
   cases = which(x$marks == levels(x$marks)[case])
   K_case = spatstat.core::Kest(x[cases, ], r = r, rmax = rmax, breaks = breaks, correction = correction, nlarge = nlarge,
                 Domain = domain, var.approx = var.approx, ratio = ratio)

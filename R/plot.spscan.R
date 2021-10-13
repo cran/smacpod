@@ -10,7 +10,7 @@
 #' @param x An object of class \code{spscan}.
 #' @param ... Additional graphical parameters passed to the
 #'   \code{\link[spatstat.geom]{plot.ppp}} function.
-#' @param nv The number of verticies to draw the cluster 
+#' @param nv The number of vertices when drawing the cluster 
 #' circles. Default is 100.
 #' @param border The border color of the circle.  Default is
 #'   NULL, meaning black.
@@ -26,8 +26,15 @@
 #' @export
 #' @examples
 #' data(grave)
-#' out = spscan.test(grave, case = 2, alpha = 0.1)
-#' plot(out, chars = c(1, 20), main = "most likely cluster")
+#' out = spscan.test(grave, case = 2, alpha = 0.1, nsim = 49)
+#' plot(out, chars = c(1, 20), main = "most likely cluster",
+#'      border = "orange", ccol = NA)
+#' # change color, lty, lwd of circles
+#' set.seed(2)
+#' out2 = spscan.test(grave, case = 2, alpha = 0.8, nsim = 49)
+#' plot(out2, chars = c(1, 20),  border = "blue")
+#' plot(out2, chars = c(1, 20),  border = c("blue", "orange"),
+#'      clwd = c(3, 2), clty = c(2, 3))
 plot.spscan = function(x, ..., nv = 100, border = NULL, 
                      ccol = NULL, clty = NULL, clwd = NULL) {
   if (class(x) != "spscan") {
@@ -44,6 +51,20 @@ plot.spscan = function(x, ..., nv = 100, border = NULL,
   if (is.null(ccol)) ccol = rep(NA, nc)
   if (is.null(clwd)) clwd = c(2, rep(1, nc - 1))
   
+  # rep colors with length 1
+  if (length(border) == 1) {
+    border = rep(border, nc)
+  }
+  if (length(clty) == 1) {
+    clty = rep(clty, nc)
+  }
+  if (length(ccol) == 1) {
+    ccol = rep(ccol, nc)
+  }
+  if (length(clwd) == 1) {
+    clwd = rep(clwd, nc)
+  }
+  
   # more sanity checking
   if (length(border) != nc) stop("if specified, border must have length equal to nrow(x$coords)")
   if (length(clty) != nc) stop("if specified, border must have length equal to nrow(x$coords)")
@@ -53,7 +74,11 @@ plot.spscan = function(x, ..., nv = 100, border = NULL,
   # plot clusters
   for (i in seq_len(nc)) {
     plotrix::draw.circle(x$clusters[[i]]$coords[1, 1], x$clusters[[i]]$coords[1, 2], 
-                         x$clusters[[i]]$r, nv = nv, border = border, col = ccol[i], 
-                         lty = clty[i], lwd = clwd[i])
+                         x$clusters[[i]]$r,
+                         nv = nv,
+                         border = border[i],
+                         col = ccol[i], 
+                         lty = clty[i],
+                         lwd = clwd[i])
   }
 }

@@ -17,7 +17,6 @@
 #' @examples 
 #' data(grave)
 #' contour(spdensity(grave))
-
 spdensity <- function(x, sigma = NULL, ..., weights=NULL, edge = TRUE, 
                      varcov = NULL, at = "pixels", 
                      leaveoneout = TRUE, adjust = 1, diggle = FALSE,

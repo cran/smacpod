@@ -7,7 +7,7 @@
 \method{plot}{kdenv}(
   x,
   ...,
-  shadecol1 = "gray56",
+  shadecol1 = "darkgrey",
   shadecol2 = "lightgrey",
   main = "",
   legend = FALSE
@@ -21,13 +21,13 @@
 \code{\link[spatstat.core]{plot.fv}} function, which is used
 internally for plotting.}
 
-\item{shadecol1}{Shade color for max/min envelopes.
-Default is a dark grey.}
+\item{shadecol1}{Color for min/max tolerance envelopes generated under the random labeling hypothesis.
+The default is a dark grey.}
 
 \item{shadecol2}{Shade color for non-rejection envelopes.
-Default is "lightgrey".}
+The default is \code{"lightgrey"}.}
 
-\item{main}{A main title for the plot.  Default is blank.}
+\item{main}{A main title for the plot.  The default is blank.}
 
 \item{legend}{Logical for whether a legend should
 automatically be displayed.  Default is \code{FALSE}.
@@ -44,13 +44,16 @@ functions for the cases and controls.  The dashed line
 indicates the average difference in the K functions
 produced from the data sets simulated under the random
 labeling hypothesis when executing the \code{kdest}
-function.
+function. The shaded areas indicate the tolerance envelopes
+constructed in \code{x} for tolerance level \code{level} and
+the min/max envelopes constructed under the random labeling
+hypothesis.
 }
 \examples{
 data(grave)
-kd1 = kdest(grave, nsim = 19, level = 0.9)
-plot(kd1)
-plot(kd1, legend = TRUE)
+kdenv = kdest(grave, nsim = 19, level = 0.9)
+plot(kdenv)
+plot(kdenv, legend = TRUE)
 }
 \seealso{
 \code{\link[spatstat.core]{plot.fv}}

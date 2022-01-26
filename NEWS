@@ -7,3 +7,4 @@
 # 2.2 Add color gradient function better for logrr.
 # 2.3 Add print, summary methods for kdenv, spscan objects. Add cluster
       function. Add print methods for logrrenv, logrr_test.
+# 2.4 Update imports for spatstat.random.

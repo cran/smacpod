@@ -63,7 +63,7 @@ kdest = function(x, case = 2, nsim = 0, level = 0.95, r = NULL,
     #min/max envelope
     out = spatstat.core::envelope(x, kd, case = case, nsim = nsim, 
                              savefuns = TRUE, 
-                             simulate = expression(spatstat.core::rlabel(x, permute = TRUE)), 
+                             simulate = expression(spatstat.random::rlabel(x, permute = TRUE)), 
                              r = r, rmax = rmax, 
                              breaks = breaks, 
                              correction = correction, 

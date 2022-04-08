@@ -1,7 +1,7 @@
 Package: smacpod
 Type: Package
 Title: Statistical Methods for the Analysis of Case-Control Point Data
-Version: 2.4
+Version: 2.4.1
 Authors@R: 
     person(given = "Joshua",
            family = "French",
@@ -20,7 +20,7 @@ VignetteBuilder: knitr
 RoxygenNote: 7.1.2
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2022-01-26 19:37:09 UTC; joshu
+Packaged: 2022-04-08 21:25:15 UTC; frencjos
 Author: Joshua French [aut, cre] (<https://orcid.org/0000-0002-9708-3353>)
 Repository: CRAN
-Date/Publication: 2022-01-26 21:10:02 UTC
+Date/Publication: 2022-04-08 21:40:02 UTC

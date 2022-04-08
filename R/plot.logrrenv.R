@@ -29,7 +29,7 @@
 #' # no border or ribben (legend).  Simple color scheme.
 #' plot(logrrsim, col = c("blue", "white", "orange"), ribbon = FALSE, box = FALSE) 
 #' # alternate color scheme
-#' plot(logrrsim, col = topo.colors(12))
+#' plot(logrrsim, col = topo.colors(12), conlist = list(col = "lightgrey"))
 plot.logrrenv = function(x, ..., conlist = list(), main = "") {
   # if there were no simulations
   if (is.null(x$nrenv)) {
@@ -42,7 +42,8 @@ plot.logrrenv = function(x, ..., conlist = list(), main = "") {
                      which(is.na(x$v), arr.ind = TRUE))
 
     # arguments for contour.im function
-    argc = list(x = xtemp, add = TRUE, conlist)
+    conlist$x = xtemp
+    conlist$add = TRUE
     
     # NA any locations outside window or inside non-rejection envelopes
     xtemp$v[which_na] = NA
@@ -53,6 +54,6 @@ plot.logrrenv = function(x, ..., conlist = list(), main = "") {
     # plot colors for regions outside non-rejection envelopes
     do.call(spatstat.geom::image.im, argi)
     # add contour to plot
-    do.call(spatstat.geom::contour.im, argc) 
+    do.call(spatstat.geom::contour.im, conlist) 
   }
 }

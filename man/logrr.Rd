@@ -196,7 +196,7 @@ print(renv) # print information about envelopes
 plot(renv) # plot results
 # plot using a better gradient
 grad = gradient.color.scale(min(renv$v, na.rm = TRUE), max(renv$v, na.rm = TRUE))
-plot(renv, col = grad$col, breaks = grad$breaks)
+plot(renv, col = grad$col, breaks = grad$breaks, conlist = list(col = "lightgrey"))
 }
 \references{
 Waller, L.A. and Gotway, C.A. (2005). Applied Spatial Statistics

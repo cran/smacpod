@@ -99,7 +99,7 @@
 #' plot(renv) # plot results
 #' # plot using a better gradient
 #' grad = gradient.color.scale(min(renv$v, na.rm = TRUE), max(renv$v, na.rm = TRUE))
-#' plot(renv, col = grad$col, breaks = grad$breaks)
+#' plot(renv, col = grad$col, breaks = grad$breaks, conlist = list(col = "lightgrey"))
 logrr = function(x, sigma = NULL, sigmacon = NULL, case = 2, 
                  nsim = 0, level = 0.90, alternative = "two.sided", ..., 
                  bwargs = list(), weights = NULL, edge = TRUE, 

@@ -39,7 +39,7 @@ plot(logrrsim)
 # no border or ribben (legend).  Simple color scheme.
 plot(logrrsim, col = c("blue", "white", "orange"), ribbon = FALSE, box = FALSE) 
 # alternate color scheme
-plot(logrrsim, col = topo.colors(12))
+plot(logrrsim, col = topo.colors(12), conlist = list(col = "lightgrey"))
 }
 \seealso{
 \code{\link[spatstat.geom]{plot.im}},

@@ -34,12 +34,13 @@ An important aspect of this plot is the
 }
 \examples{
 data(grave)
+\dontrun{
 logrrsim = logrr(grave, nsim = 9)
 plot(logrrsim)
 # no border or ribben (legend).  Simple color scheme.
 plot(logrrsim, col = c("blue", "white", "orange"), ribbon = FALSE, box = FALSE) 
 # alternate color scheme
-plot(logrrsim, col = topo.colors(12), conlist = list(col = "lightgrey"))
+plot(logrrsim, col = topo.colors(12), conlist = list(col = "lightgrey"))}
 }
 \seealso{
 \code{\link[spatstat.geom]{plot.im}},

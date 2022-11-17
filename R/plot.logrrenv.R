@@ -24,12 +24,13 @@
 #' @export
 #' @examples
 #' data(grave)
+#' \dontrun{
 #' logrrsim = logrr(grave, nsim = 9)
 #' plot(logrrsim)
 #' # no border or ribben (legend).  Simple color scheme.
 #' plot(logrrsim, col = c("blue", "white", "orange"), ribbon = FALSE, box = FALSE) 
 #' # alternate color scheme
-#' plot(logrrsim, col = topo.colors(12), conlist = list(col = "lightgrey"))
+#' plot(logrrsim, col = topo.colors(12), conlist = list(col = "lightgrey"))}
 plot.logrrenv = function(x, ..., conlist = list(), main = "") {
   # if there were no simulations
   if (is.null(x$nrenv)) {

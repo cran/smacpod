@@ -107,13 +107,13 @@ spdensity(
 }
 \value{
 This function produces the spatial density of \code{x}
-as an object of class \code{im} from the \code{spatstat.core} package.
+as an object of class \code{\link[spatstat.geom]{im}}.
 }
 \description{
 \code{spdensity} computes a kernel smoothed spatial
 density function from a point pattern.  This function is
-basically a wrapper for \code{\link[spatstat.core]{density.ppp}}.
-The \code{\link[spatstat.core]{density.ppp}} function computes
+basically a wrapper for \code{\link[spatstat.explore]{density.ppp}}.
+The \code{\link[spatstat.explore]{density.ppp}} function computes
 the spatial intensity of a point pattern; the \code{spdensity}
 function scales the intensity to produce a true spatial density.
 }
@@ -125,7 +125,7 @@ contour(spdensity(grave))
 Waller, L.A. and Gotway, C.A. (2005).  Applied Spatial Statistics for Public Health Data.  Hoboken, NJ: Wiley.
 }
 \seealso{
-\code{\link[spatstat.core]{density.ppp}}
+\code{\link[spatstat.explore]{density.ppp}}
 }
 \author{
 Joshua French

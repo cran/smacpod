@@ -11,21 +11,20 @@
 #' envelopes of \code{KD(r)} simulated under the random labeling hypothesis, and
 #' the average KD(r) under the random labeling hypothesis.
 #'
-#' This function relies internally on the \code{\link[spatstat.core]{Kest}} and
-#' \code{\link[spatstat.core]{eval.fv}} functions from the \code{spatstat}
-#' package.  The arguments are essentially the same as the
-#' \code{\link[spatstat.core]{Kest}} function, and the user is referred there
+#' This function relies internally on the \code{\link[spatstat.explore]{Kest}} and
+#' \code{\link[spatstat.explore]{eval.fv}} functions.  The arguments are essentially the same as the
+#' \code{\link[spatstat.explore]{Kest}} function, and the user is referred there
 #' for more details about the various arguments.
 #' 
 #' @inheritParams logrr   
-#' @inheritParams spatstat.core::Kest
+#' @inheritParams spatstat.explore::Kest
 #'   
 #' @return Returns a \code{kdenv} object.  See documentation
-#'   for \code{spatstat::Kest}.
+#'   for \code{\link[spatstat.explore]{Kest}}.
 #' @author Joshua French
 #' @export
-#' @seealso \code{\link[spatstat.core]{Kest}},
-#'   \code{\link[spatstat.core]{eval.fv}}
+#' @seealso \code{\link[spatstat.explore]{Kest}},
+#'   \code{\link[spatstat.explore]{eval.fv}}
 #' @references Waller, L.A. and Gotway, C.A. (2005). 
 #'   Applied Spatial Statistics for Public Health Data. 
 #'   Hoboken, NJ: Wiley.
@@ -61,7 +60,7 @@ kdest = function(x, case = 2, nsim = 0, level = 0.95, r = NULL,
     out = list(out = out)
   } else {
     #min/max envelope
-    out = spatstat.core::envelope(x, kd, case = case, nsim = nsim, 
+    out = spatstat.explore::envelope(x, kd, case = case, nsim = nsim, 
                              savefuns = TRUE, 
                              simulate = expression(spatstat.random::rlabel(x, permute = TRUE)), 
                              r = r, rmax = rmax, 

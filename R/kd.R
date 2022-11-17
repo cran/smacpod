@@ -4,10 +4,9 @@
 #' functions for a set of cases and controls.
 #' 
 #' This function relies internally on the 
-#' \code{\link[spatstat.core]{Kest}} and 
-#' \code{\link[spatstat.core]{eval.fv}} functions from the 
-#' \code{spatstat.core} package.  The arguments are essentially
-#' the same as the \code{\link[spatstat.core]{Kest}} function, 
+#' \code{\link[spatstat.explore]{Kest}} and 
+#' \code{\link[spatstat.explore]{eval.fv}}.  The arguments are essentially
+#' the same as the \code{\link[spatstat.explore]{Kest}} function, 
 #' and the user is referred there for more details about
 #' the various arguments.
 #' 
@@ -15,15 +14,15 @@
 #'   and control groups.
 #' @param domain Optional. Calculations will be restricted 
 #'   to this subset of the window. See Details of 
-#'   \code{\link[spatstat.core]{Kest}}.
+#'   \code{\link[spatstat.explore]{Kest}}.
 #' @inheritParams logrr
-#' @inheritParams spatstat.core::Kest
+#' @inheritParams spatstat.explore::Kest
 #'   
 #' @return Returns an \code{fv} object.  See documentation 
-#'   for \code{spatstat.core::Kest}.
+#'   for \code{\link[spatstat.explore]{Kest}}.
 #' @author Joshua French
-#' @seealso \code{\link[spatstat.core]{Kest}}, 
-#'   \code{\link[spatstat.core]{eval.fv}}
+#' @seealso \code{\link[spatstat.explore]{Kest}}, 
+#'   \code{\link[spatstat.explore]{eval.fv}}
 #' @references Waller, L.A. and Gotway, C.A. (2005). Applied
 #'   Spatial Statistics for Public Health Data. Hoboken, NJ:
 #'   Wiley.
@@ -41,9 +40,9 @@ kd = function(x, case = 2, r = NULL, rmax = NULL,
   case = suppressMessages(arg_check_case(case, x))
   # which observations are cases
   cases = which(x$marks == levels(x$marks)[case])
-  K_case = spatstat.core::Kest(x[cases, ], r = r, rmax = rmax, breaks = breaks, correction = correction, nlarge = nlarge,
+  K_case = spatstat.explore::Kest(x[cases, ], r = r, rmax = rmax, breaks = breaks, correction = correction, nlarge = nlarge,
                 Domain = domain, var.approx = var.approx, ratio = ratio)
-  K_control = spatstat.core::Kest(x[-cases, ], r = r, rmax = rmax, breaks = breaks, correction = correction, nlarge = nlarge,
+  K_control = spatstat.explore::Kest(x[-cases, ], r = r, rmax = rmax, breaks = breaks, correction = correction, nlarge = nlarge,
                    domain = domain, var.approx = var.approx, ratio = ratio)
-  spatstat.core::eval.fv(K_case - K_control)
+  spatstat.explore::eval.fv(K_case - K_control)
 }

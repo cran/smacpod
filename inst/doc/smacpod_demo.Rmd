@@ -64,7 +64,7 @@ The log relative risk can be estimated using the `logrr` function. The function 
 * `sigmacon`: the bandwidth parameter of the control group
 * `case`: a character string specifying the name of the case group or the index of the case group in `levels(x$marks)`. The default is `case = 2`, the second level of `x$marks`. 
 
-If `sigma` and `sigmacon` aren't specified, then the `spatstat.core::bw.relrisk` function is used for these arguments.
+If `sigma` and `sigmacon` aren't specified, then the `spatstat.explore::bw.relrisk` function is used for these arguments.
 
 We estimate the log relative risk below for the `grave` data, selecting the `affected` graves as the `case` group, and then plot the results. The `logrr` returns an object of class `im`, which has an associated `plot` method. We also add contours of $\hat{r}(s)$ using the `contour` function. The ares with levels around 1-1.5 have the highest relative risk of cases to controls. These are the areas most likely to have a cluster of affected grave locations relative to unaffected grave locations.
 
@@ -131,7 +131,7 @@ The `kdest` function can be used to compute $\widehat{KD}(r)$. The function requ
 * `x`: a `ppp` object with `marks` for the cases and controls
 * `case`: a character string specifying the name of the case group or the index of the case group in `levels(x$marks)`. The default is `case = 2`, the second level of `x$marks`. 
 
-The function relies internally on `spatstat.core::Kest`, and users are directed there for more details about the estimation process. The `kest` function produces on object of class `fv`, defined by the **spatstat** package, which has an associated `plot` method that can be used to plot the results. 
+The function relies internally on `spatstat.explore::Kest`, and users are directed there for more details about the estimation process. The `kest` function produces on object of class `fv`, defined by the **spatstat.explore** package, which has an associated `plot` method that can be used to plot the results. 
 
 We compute the estimated difference in K functions for the case and controls groups below, and then plot the results.
 ```{r, fig.width=6, fig.height=6}

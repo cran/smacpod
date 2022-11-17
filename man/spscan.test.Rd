@@ -18,11 +18,13 @@ spscan.test(
 \item{x}{A \code{\link[spatstat.geom]{ppp}} object with marks for the case
 and control groups.}
 
-\item{case}{The name of the desired "case" group in \code{levels(x$marks)}.
-Alternatively, the position of the name of the "case" group in
-\code{levels(x$marks)}.  Since we don't know the group names, the default
-is 2, the second position of \code{levels(x$marks)}. \code{x$marks} is
-assumed to be a factor.  Automatic conversion is attempted if it is not.}
+\item{case}{The name of the desired "case" group in
+\code{levels(x$marks)}. Alternatively, the position of
+the name of the "case" group in \code{levels(x$marks)}.
+Since we don't know the group names, the default is 2,
+the second position of \code{levels(x$marks)}.
+\code{x$marks} is assumed to be a factor.  Automatic
+conversion is attempted if it is not.}
 
 \item{nsim}{The number of simulations from which to compute the p-value.  A
 non-negative integer.  Default is 499.}

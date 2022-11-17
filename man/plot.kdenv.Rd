@@ -18,7 +18,7 @@
 \code{\link[smacpod]{kdest}}.}
 
 \item{...}{Additional graphical parameters passed to the
-\code{\link[spatstat.core]{plot.fv}} function, which is used
+\code{\link[spatstat.explore]{plot.fv}} function, which is used
 internally for plotting.}
 
 \item{shadecol1}{Color for min/max tolerance envelopes generated under the random labeling hypothesis.
@@ -56,5 +56,5 @@ plot(kdenv)
 plot(kdenv, legend = TRUE)
 }
 \seealso{
-\code{\link[spatstat.core]{plot.fv}}
+\code{\link[spatstat.explore]{plot.fv}}
 }

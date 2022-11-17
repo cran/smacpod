@@ -23,8 +23,9 @@
 #'   Statistics in Medicine 14.21-22 (1995): 2335-2342.
 #' @examples
 #' data(grave)
+#' \dontrun{
 #' logrrenv = logrr(grave, nsim = 9)
-#' logrr.test(logrrenv)
+#' logrr.test(logrrenv)}
 logrr.test = function(x) {
   if (!is.element("logrrenv", class(x))) {
     stop("x must be an object from the logrr function")

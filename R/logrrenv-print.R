@@ -10,7 +10,10 @@
 #' @author Joshua French
 #' @export
 print.logrrenv = function(x, ...) {
-  cat("\nPixelwise tolerance envelopes for log relative risk, r(s)\n\n")
+  cat(paste("\n",
+            x$envelope,
+            " tolerance envelopes for log relative risk, r(s)\n\n",
+            sep = ""))
   cat("r(s) = ln[f(s)/g(s)]\n")
   cat("f(s) = spatial density of cases at location s\n")
   cat("g(s) = spatial density of controls at location s\n")

@@ -2,17 +2,17 @@
 #' 
 #' \code{spdensity} computes a kernel smoothed spatial
 #' density function from a point pattern.  This function is
-#' basically a wrapper for \code{\link[spatstat.core]{density.ppp}}.
-#' The \code{\link[spatstat.core]{density.ppp}} function computes
+#' basically a wrapper for \code{\link[spatstat.explore]{density.ppp}}.
+#' The \code{\link[spatstat.explore]{density.ppp}} function computes
 #' the spatial intensity of a point pattern; the \code{spdensity}
 #' function scales the intensity to produce a true spatial density. 
-#' @inheritParams spatstat.core::density.ppp
+#' @inheritParams spatstat.explore::density.ppp
 #' 
 #' @return This function produces the spatial density of \code{x}
-#' as an object of class \code{im} from the \code{spatstat.core} package.  
+#' as an object of class \code{\link[spatstat.geom]{im}}.  
 #' @author Joshua French
 #' @export
-#' @seealso \code{\link[spatstat.core]{density.ppp}}
+#' @seealso \code{\link[spatstat.explore]{density.ppp}}
 #' @references Waller, L.A. and Gotway, C.A. (2005).  Applied Spatial Statistics for Public Health Data.  Hoboken, NJ: Wiley.
 #' @examples 
 #' data(grave)
@@ -22,7 +22,7 @@ spdensity <- function(x, sigma = NULL, ..., weights=NULL, edge = TRUE,
                      leaveoneout = TRUE, adjust = 1, diggle = FALSE,
                     kernel = "gaussian", scalekernel = is.character(kernel),
                      positive = FALSE, verbose = TRUE) {
-  d <- spatstat.core::density.ppp(x = x, sigma = sigma, ..., weights = weights,
+  d <- spatstat.explore::density.ppp(x = x, sigma = sigma, ..., weights = weights,
               edge = edge, varcov = varcov, at = at, leaveoneout = leaveoneout,
               adjust = adjust, diggle = diggle,
               se = FALSE, kernel = kernel, scalekernel = scalekernel,

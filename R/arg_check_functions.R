@@ -95,11 +95,41 @@ arg_check_longlat = function(longlat) {
   }
 }
 
+#' Argument check number of nearest neighbors
+#' @param q The number of nearest neighbors
+#' @noRd
 arg_check_q = function(q) {
   if (!is.numeric(q)) {
     stop("q must be a numeric value")
   }
   if (min(q) < 1) {
     stop("q must be 1 or larger")
+  }
+}
+
+#' Argument check envelope type
+#' @param envelope The type of envelope.
+#' @noRd
+arg_check_envelope = function(envelope) {
+  if (length(envelope) != 1) {
+    stop("envelope must be a single type")
+  }
+  if (!is.character(envelope)) {
+    stop("envelope must be a character string")
+  }
+  if (!is.element(envelope, c("pixelwise", "simultaneous"))) {
+    stop("envelope must be either 'pixelwise' or 'simultaneous'")
+  }
+}
+
+#' Argument check return_sims logical
+#' @param return_sims A logical value.
+#' @noRd
+arg_check_return_sims = function(return_sims) {
+  if (length(return_sims) != 1) {
+    stop("return_sims must be a single logical value")
+  }
+  if (!is.logical(return_sims)) {
+    stop("return_sims must be a logical value")
   }
 }

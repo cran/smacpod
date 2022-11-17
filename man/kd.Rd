@@ -21,11 +21,13 @@ kd(
 \item{x}{A \code{\link[spatstat.geom]{ppp}} object with marks for the case
 and control groups.}
 
-\item{case}{The name of the desired "case" group in \code{levels(x$marks)}.
-Alternatively, the position of the name of the "case" group in
-\code{levels(x$marks)}.  Since we don't know the group names, the default
-is 2, the second position of \code{levels(x$marks)}. \code{x$marks} is
-assumed to be a factor.  Automatic conversion is attempted if it is not.}
+\item{case}{The name of the desired "case" group in
+\code{levels(x$marks)}. Alternatively, the position of
+the name of the "case" group in \code{levels(x$marks)}.
+Since we don't know the group names, the default is 2,
+the second position of \code{levels(x$marks)}.
+\code{x$marks} is assumed to be a factor.  Automatic
+conversion is attempted if it is not.}
 
 \item{r}{
     Optional. Vector of values for the argument \eqn{r} at which \eqn{K(r)} 
@@ -46,7 +48,7 @@ assumed to be a factor.  Automatic conversion is attempted if it is not.}
     options \code{"none"}, \code{"border"}, \code{"bord.modif"},
     \code{"isotropic"}, \code{"Ripley"}, \code{"translate"},
     \code{"translation"}, \code{"rigid"},
-    \code{"none"}, \code{"good"} or \code{"best"}.
+    \code{"none"}, \code{"periodic"}, \code{"good"} or \code{"best"}.
     It specifies the edge correction(s) to be applied.
     Alternatively \code{correction="all"} selects all options.
   }
@@ -59,7 +61,7 @@ assumed to be a factor.  Automatic conversion is attempted if it is not.}
 
 \item{domain}{Optional. Calculations will be restricted 
 to this subset of the window. See Details of 
-\code{\link[spatstat.core]{Kest}}.}
+\code{\link[spatstat.explore]{Kest}}.}
 
 \item{var.approx}{Logical. If \code{TRUE}, the approximate
     variance of \eqn{\hat K(r)}{Kest(r)} under CSR
@@ -75,7 +77,7 @@ to this subset of the window. See Details of
 }
 \value{
 Returns an \code{fv} object.  See documentation 
-  for \code{spatstat.core::Kest}.
+  for \code{\link[spatstat.explore]{Kest}}.
 }
 \description{
 \code{kd} determines the difference in estimated K 
@@ -83,10 +85,9 @@ functions for a set of cases and controls.
 }
 \details{
 This function relies internally on the 
-\code{\link[spatstat.core]{Kest}} and 
-\code{\link[spatstat.core]{eval.fv}} functions from the 
-\code{spatstat.core} package.  The arguments are essentially
-the same as the \code{\link[spatstat.core]{Kest}} function, 
+\code{\link[spatstat.explore]{Kest}} and 
+\code{\link[spatstat.explore]{eval.fv}}.  The arguments are essentially
+the same as the \code{\link[spatstat.explore]{Kest}} function, 
 and the user is referred there for more details about
 the various arguments.
 }
@@ -101,8 +102,8 @@ Waller, L.A. and Gotway, C.A. (2005). Applied
   Wiley.
 }
 \seealso{
-\code{\link[spatstat.core]{Kest}}, 
-  \code{\link[spatstat.core]{eval.fv}}
+\code{\link[spatstat.explore]{Kest}}, 
+  \code{\link[spatstat.explore]{eval.fv}}
 }
 \author{
 Joshua French

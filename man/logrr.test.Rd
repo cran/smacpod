@@ -24,8 +24,9 @@ Diggle (1995).
 }
 \examples{
 data(grave)
+\dontrun{
 logrrenv = logrr(grave, nsim = 9)
-logrr.test(logrrenv)
+logrr.test(logrrenv)}
 }
 \references{
 Waller, L.A. and Gotway, C.A. (2005). Applied

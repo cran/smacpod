@@ -37,7 +37,7 @@
 #'      clwd = c(3, 2), clty = c(2, 3))
 plot.spscan = function(x, ..., nv = 100, border = NULL, 
                      ccol = NULL, clty = NULL, clwd = NULL) {
-  if (class(x) != "spscan") {
+  if (!is.element("spscan", class(x))) {
     stop("x should be a spscan object from spscan.test function")
   }
   spatstat.geom::plot.ppp(x$ppp, ...)

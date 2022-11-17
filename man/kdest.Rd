@@ -20,20 +20,23 @@ kdest(
 )
 }
 \arguments{
-\item{x}{A \code{\link[spatstat.geom]{ppp}} object 
+\item{x}{A \code{\link[spatstat.geom]{ppp}} object
 package with marks for the case and control groups.
-\code{x$marks} is assumed to be a factor.  Automatic 
+\code{x$marks} is assumed to be a factor. Automatic
 conversion is attempted if it is not.}
 
-\item{case}{The name of the desired "case" group in \code{levels(x$marks)}.
-Alternatively, the position of the name of the "case" group in
-\code{levels(x$marks)}.  Since we don't know the group names, the default
-is 2, the second position of \code{levels(x$marks)}. \code{x$marks} is
-assumed to be a factor.  Automatic conversion is attempted if it is not.}
+\item{case}{The name of the desired "case" group in
+\code{levels(x$marks)}. Alternatively, the position of
+the name of the "case" group in \code{levels(x$marks)}.
+Since we don't know the group names, the default is 2,
+the second position of \code{levels(x$marks)}.
+\code{x$marks} is assumed to be a factor.  Automatic
+conversion is attempted if it is not.}
 
-\item{nsim}{The number of simulated data sets from which to construct
-tolerance envelopes under the random labeling hypothesis.  The default is 0
-(i.e., no envelopes).}
+\item{nsim}{The number of simulated data sets from which
+to construct tolerance envelopes under the random
+labeling hypothesis.  The default is 0 (i.e., no
+envelopes).}
 
 \item{level}{The level of the tolerance envelopes.}
 
@@ -56,7 +59,7 @@ tolerance envelopes under the random labeling hypothesis.  The default is 0
     options \code{"none"}, \code{"border"}, \code{"bord.modif"},
     \code{"isotropic"}, \code{"Ripley"}, \code{"translate"},
     \code{"translation"}, \code{"rigid"},
-    \code{"none"}, \code{"good"} or \code{"best"}.
+    \code{"none"}, \code{"periodic"}, \code{"good"} or \code{"best"}.
     It specifies the edge correction(s) to be applied.
     Alternatively \code{correction="all"} selects all options.
   }
@@ -86,7 +89,7 @@ tolerance envelopes under the random labeling hypothesis.  The default is 0
 }
 \value{
 Returns a \code{kdenv} object.  See documentation
-  for \code{spatstat::Kest}.
+  for \code{\link[spatstat.explore]{Kest}}.
 }
 \description{
 \code{kdest} computes the difference in estimated K functions for a set of
@@ -101,10 +104,9 @@ envelopes of \code{KD(r)} simulated under the random labeling hypothesis, and
 the average KD(r) under the random labeling hypothesis.
 }
 \details{
-This function relies internally on the \code{\link[spatstat.core]{Kest}} and
-\code{\link[spatstat.core]{eval.fv}} functions from the \code{spatstat}
-package.  The arguments are essentially the same as the
-\code{\link[spatstat.core]{Kest}} function, and the user is referred there
+This function relies internally on the \code{\link[spatstat.explore]{Kest}} and
+\code{\link[spatstat.explore]{eval.fv}} functions.  The arguments are essentially the same as the
+\code{\link[spatstat.explore]{Kest}} function, and the user is referred there
 for more details about the various arguments.
 }
 \examples{
@@ -127,8 +129,8 @@ Waller, L.A. and Gotway, C.A. (2005).
   Hoboken, NJ: Wiley.
 }
 \seealso{
-\code{\link[spatstat.core]{Kest}},
-  \code{\link[spatstat.core]{eval.fv}}
+\code{\link[spatstat.explore]{Kest}},
+  \code{\link[spatstat.explore]{eval.fv}}
 }
 \author{
 Joshua French

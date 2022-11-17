@@ -1,7 +1,7 @@
 Package: smacpod
 Type: Package
 Title: Statistical Methods for the Analysis of Case-Control Point Data
-Version: 2.4.1
+Version: 2.5
 Authors@R: 
     person(given = "Joshua",
            family = "French",
@@ -13,14 +13,14 @@ Description: Statistical methods for analyzing case-control point data.  Methods
 License: GPL (>= 2)
 LazyLoad: yes
 Depends: R (>= 3.1.1)
-Imports: spatstat.geom, spatstat.random, spatstat.core, smerc, plotrix,
-        abind, pbapply, sp
+Imports: spatstat.geom, spatstat.random, spatstat.explore, smerc,
+        plotrix, abind, pbapply, sp
 Suggests: testthat, knitr, rmarkdown
 VignetteBuilder: knitr
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2022-04-08 21:25:15 UTC; frencjos
+Packaged: 2022-11-16 19:30:23 UTC; frencjos
 Author: Joshua French [aut, cre] (<https://orcid.org/0000-0002-9708-3353>)
 Repository: CRAN
-Date/Publication: 2022-04-08 21:40:02 UTC
+Date/Publication: 2022-11-17 17:50:06 UTC

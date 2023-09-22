@@ -1,10 +1,14 @@
+---
+author: "Joshua P. French"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Demonstration of smacpod package}
+  %\VignetteIndexEntry{Demonstration of the smacpod package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
+# Demonstration of the smacpod package
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)

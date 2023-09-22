@@ -19,3 +19,6 @@
 # 2.5
 - Add global version of logrr tolerance envelopes.
 - Update package based on spatstat.core splitting into two different packages.
+# 2.6
+- Remove dependency on sp package.
+- Fix bug in print function of kdenv_summary.

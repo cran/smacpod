@@ -1,6 +1,6 @@
-7538fae49df6d2ff2f73d8108de06e33 *DESCRIPTION
+f0629a4ddb2f0173eebdea002b32c812 *DESCRIPTION
 28f7a5b234d7be70afd44f96fb1fdb8a *NAMESPACE
-c852c5993434e991e8198ca7df49bd9a *NEWS.md
+a286257666074dd655e46527e87e2e92 *NEWS.md
 8ac3d68835aeb86ef55735b0658f5918 *R/Kdest.R
 e328b34d13d684184aabd8c8296d5a5b *R/arg_check_functions.R
 ef15a012532de50aab16eb5672c8cd47 *R/circles.intersect.R
@@ -10,7 +10,7 @@ ff6e7e08c5ba7bd20d70ede535ccdcf5 *R/extract.clusters.R
 7b91832d61721b0a5249ce7d04ffbec8 *R/grave.R
 0dd436a18d27f63f97fa01c1615b58fc *R/kd.R
 a16be6125c5dfea1c3addc15946a3d8f *R/kdest-print.R
-83bebd056772b4edd3f571b573dd73cf *R/kdest-summary.R
+ddca37074d255bad75a89fab378d3efa *R/kdest-summary.R
 200296b324b54608bc737ef4c139b751 *R/kdplus.test.R
 78f6cb4c6c1e2f5bd25d08d4c12e1b27 *R/logrr.R
 47600af170d8f67598d7d6c3e93c6aa3 *R/logrr.test.R
@@ -22,15 +22,16 @@ a771ed0fbd97458ff1e1329bb8e84e98 *R/noc.R
 d3773a118c28d5a90d33bfb1ddf66515 *R/plot.logrrenv.R
 9d20f25ee1a41d9fd142d4da1bce0295 *R/plot.spscan.R
 53c5f61761d21233cf56c7ddd15b1abe *R/print.spscan.R
-7f8d6658bedbb1a5e734faa496654fee *R/qnn.test.R
+cf15f228acb162669bbcf1f25962c593 *R/qnn.test.R
+9453aa6816aae6038132cea67caf395b *R/smacpod-package.R
 fee82214a9d9d3bd3195044393f027b6 *R/spdensity.R
-feae9e53e7c9dff0a847b765bbc83d2e *R/spscan.test.R
+368c0eae8f58ab891ea1213e057ffe23 *R/spscan.test.R
 e2bfe8b12c668021cfd3ec85ab64a167 *R/summary.spscan.R
-db9da306ec42f096f769839214b159fc *build/vignette.rds
+ba340f6751a7bd3b9a6582e35dca3f7a *build/vignette.rds
 f80d59bdad9a948d8ac2c4aba656d0a7 *data/grave.rda
 20c38509d329fe8daf4d42f52ad16bcc *inst/doc/smacpod_demo.R
-d09473787a06c619672ec57d958227d0 *inst/doc/smacpod_demo.Rmd
-7cd4ab04e58fc94d68e1fd0e2fdb2a0c *inst/doc/smacpod_demo.html
+7b0f0d3250752613c20e60f117be4735 *inst/doc/smacpod_demo.Rmd
+153c4cfc77aac3f4f406f5a500159080 *inst/doc/smacpod_demo.html
 2156b9d4e88b58ee5466fda5e50c432d *man/arg_check_alternative.Rd
 d054a46473860b447160e92e67a3f91d *man/circles.intersect.Rd
 5c303f57a7c025300e05659a23886ff3 *man/circles.plot.Rd
@@ -55,8 +56,9 @@ aa4ad10ffd136130d717e37a3e52b279 *man/print.logrrenv.Rd
 06bace74a214154a475bb11205bb2375 *man/print.spscan.Rd
 07940800863d75d3256ab4e8aebd96f6 *man/qnn.test.Rd
 ca8021917753790d31bbe4af7c836646 *man/reexports.Rd
+ddfd742adf732441db4732c3bd8960c3 *man/smacpod.Rd
 53b6a05c10c070de2fdd431094cd1bb0 *man/spdensity.Rd
-55f8fd20232a8e57472d60b7118d5086 *man/spscan.test.Rd
+f8a3f74cd8e7fae286d2a89770734be1 *man/spscan.test.Rd
 24cfec024b9f5a8dad4296d32560bbbb *man/summary.kdenv.Rd
 569b91dbd4198f8380cd8c5cb02b6eba *man/summary.spscan.Rd
 104707dcd1e1cc1d2def3714ef5c3339 *tests/satscangravecases.txt
@@ -65,4 +67,4 @@ a7b1a14940d782fcc12efbb998abc92b *tests/satscangravecontrols.txt
 35d8337eab88c3c8fa36d7a2a8ca6109 *tests/satscangraveout.txt
 0051fa0878909f556a6f6f9da96f9940 *tests/test-all.R
 0bca4b264be3cc78cce635dab9e14f7f *tests/testthat/test-spscan.test.R
-d09473787a06c619672ec57d958227d0 *vignettes/smacpod_demo.Rmd
+7b0f0d3250752613c20e60f117be4735 *vignettes/smacpod_demo.Rmd

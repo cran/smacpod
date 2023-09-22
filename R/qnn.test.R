@@ -60,7 +60,7 @@ qnn.test = function(x, q = 5, case = 2, nsim = 499, longlat = FALSE) {
   maxq = max(q) # largest q
   
   # distances, then ordered
-  D = sp::spDists(cbind(x$x, x$y), longlat = longlat)
+  D = smerc::gedist(cbind(x$x, x$y), longlat = longlat)
   diag(D) = Inf #set diagonal to infinity
   odistq = t(apply(D, 1, order)[1:maxq, ]) #Find maxq nearest neighbors
   

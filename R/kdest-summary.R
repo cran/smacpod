@@ -21,8 +21,12 @@ summary.kdenv = function(object, ...) {
   idx_lo = which(object$out$obs < object$qlo)
   ranges_lo <- split(idx_lo, cumsum(c(1, diff(idx_lo) != 1)))
   # return findings
-  structure(list(ranges_hi = ranges_hi, ranges_lo = ranges_lo, r = object$r),
-            class = "kdenv_summary")
+  summary_kdenv_list <- 
+    list(ranges_hi = ranges_hi,
+         ranges_lo = ranges_lo,
+         r = object$r)
+  class(summary_kdenv_list) = "kdenv_summary"
+  return(summary_kdenv_list)
 }
 
 #' Print a \code{kdenv_summary} object
@@ -38,7 +42,7 @@ print.kdenv_summary = function(x, ...) {
   ranges_lo <- x$ranges_lo
   
   # if KD(r) > envelope for at least one r
-  if (length(ranges_hi[[1]]) > 1) {
+  if (length(ranges_hi[[1]]) >= 1) {
     cat("KD(r) > upper envelope limit for the following r:\n")
     
     for (i in seq_along(ranges_hi)) {
@@ -52,7 +56,7 @@ print.kdenv_summary = function(x, ...) {
   }
   
   # if KD(r) < envelope for at least one r
-  if (length(ranges_lo[[1]]) > 1) {
+  if (length(ranges_lo[[1]]) >= 1) {
     cat("KD(r) < lower envelope limit for the following r:\n")
     for (i in seq_along(ranges_lo)) {
       if (length(ranges_lo[[i]]) > 1) {

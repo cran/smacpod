@@ -51,6 +51,7 @@
 #'   package with marks for the case and control groups.
 #'   \code{x$marks} is assumed to be a factor. Automatic
 #'   conversion is attempted if it is not.
+#' @param ... Additional arguments passed to \code{\link[spatstat.explore]{density.ppp}}.
 #' @inheritParams spatstat.explore::density.ppp
 #' @param sigma Standard deviation of isotropic smoothing
 #'   kernel for cases. Either a numerical value, or a

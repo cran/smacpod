@@ -8,7 +8,7 @@
 #' vectors must match \code{nrow(x$coords)}.
 #' 
 #' @param x An object of class \code{spscan}.
-#' @inheritDotParams base::print
+#' @param ... Additional arguments affecting the summary produced.
 #' @param extra A logical value. Default is \code{FALSE}.
 #' \code{TRUE} indicates that extra information should be
 #' printed.

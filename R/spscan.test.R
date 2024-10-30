@@ -26,7 +26,7 @@
 #' @inheritParams qnn.test
 #'   
 #' @return Returns a list of length two of class 
-#'   \code{scan}. The first element (clusters) is a list 
+#'   \code{spscan}. The first element (clusters) is a list 
 #'   containing the significant, non-overlapping clusters, 
 #'   and has the the following components: 
 #'   \item{coords}{The
@@ -80,7 +80,7 @@
 #' # each element of the list gives the location index of the events in each cluster
 #' clusters(out)
 #' # get warning if no significant cluster
-#' out2 = spscan.test(grave, case = 2, alpha = 0.001, nsim = 99)
+#' out2 = spscan.test(grave, case = 2, alpha = 0.001, nsim = 0)
 spscan.test <- 
   function(x, case = 2, nsim = 499, alpha = 0.1, 
             maxd = NULL, cl = NULL, longlat = FALSE) {
@@ -91,64 +91,25 @@ spscan.test <-
     idxcase = which(x$marks == levels(x$marks)[case])
     N = x$n
     N1 = length(idxcase)
-    coords = matrix(c(x$x, x$y), ncol = 2)
-
-    d = smerc::gedist(cbind(x$x, x$y), longlat = longlat)
     
+    # get coordinates
+    coords = matrix(c(x$x, x$y), ncol = 2)
+    # compute distance matrix
+    d = smerc::gedist(cbind(x$x, x$y), longlat = longlat)
+    # set maxd if needed    
     if (is.null(maxd)) maxd = max(d)/2
     
+    # compute nearest neighbor list
     mynn = nn(d, k = maxd, method = "d", self = TRUE)
-    
+
     # determine the number of events inside the windows for successive
     # windows related to growing windows around each event location
     # to include the respective nearest neighbors stored in mynn
     Nin = unlist(lapply(mynn, function(x) seq_along(x)), use.names = FALSE)
     Nout = N - Nin
-    # constant used in many places on calculation of log test statistic
+    # constant used in many places for calculation of log test statistic
     const = (N1 * log(N1) + (N - N1) * log(N - N1) - N * log(N))
-    # determine whether to parallelize results
-    fcall = pbapply::pblapply
 
-    # set up list of arguments to lapply or mclapply
-    # X is the index (i), needed for counting
-    # FUN determines the maximum spatial scan statistic for that data set
-    fcall_list = list(X = as.list(1:nsim), 
-                  FUN = function(i) {
-                    # create vector of zeros with 1 in the case positions
-                    z = numeric(N)
-                    z[sample(1:N, N1)] = 1
-                    # for each element of the nn list,
-                    # cumulate the number of cases inside the successive window
-                    N1in = unlist(lapply(mynn, function(x) cumsum(z[x])), use.names = FALSE)
-                    N1out = N1 - N1in
-                    N0in = Nin - N1in
-                    N0out = Nout - N1out
-                    
-                    # calculate all test statistics
-                    # correct test statistics for certain cases, specifically when
-                    # number of cases in/out window is zero, number of controls
-                    # in/out window is zero, rate in window less than outside window
-                    talla = N1in * (log(N1in) - log(Nin))
-                    talla[which(is.nan(talla))] = 0
-                    tallb = N1out * (log(N1out) - log(Nout))
-                    tallb[which(is.nan(tallb))] = 0
-                    tallc = N0in * (log(N0in) - log(Nin))
-                    tallc[which(is.nan(tallc))] = 0
-                    talld = N0out * (log(N0out) - log(Nout)) 
-                    talld[which(is.nan(talld))] = 0
-                    tall = talla + tallb + tallc + talld - const
-                    tall[N1in/Nin <= N1out/Nout] = 0
-
-                    # return max of statistics for simulation
-                    return(max(tall))
-                  }, 
-                  cl = cl)
-    
-    # mclapply or lapply to the simulated data sets the FUN in fcall_list
-    # returns max scan statistic for that simulation
-    # tsim = unlist(do.call(fcall, fcall_list), use.names = TRUE)
-    tsim = unlist(do.call(fcall, fcall_list), use.names = TRUE)
-    
     # number of nns for each observation
     nnn = unlist(lapply(mynn, length), use.names = FALSE)
 
@@ -159,111 +120,190 @@ spscan.test <-
     # calculate scan statistics for observed data
     z = numeric(N)
     z[idxcase] = 1
-    N1in = unlist(lapply(mynn, function(x) cumsum(z[x])))
-    N1out = N1 - N1in
-    N0in = Nin - N1in
-    N0out = Nout - N1out
-    
-    ### calculate scan statistics for observed data
-    # calculate all test statistics
-    tobsa = N1in * (log(N1in) - log(Nin))
-    tobsa[which(is.nan(tobsa))] = 0
-    tobsb = N1out * (log(N1out) - log(Nout))
-    tobsb[which(is.nan(tobsb))] = 0
-    tobsc = N0in * (log(N0in) - log(Nin))
-    tobsc[which(is.nan(tobsc))] = 0
-    tobsd = N0out * (log(N0out) - log(Nout)) 
-    tobsd[which(is.nan(tobsd))] = 0
-    tobs = tobsa + tobsb + tobsc + tobsd - const
-    # correct test statistics for certain cases
-    # incidence proportion in window is smaller than the 
-    # proportion outside window
-    tobs[N1in/Nin <= N1out/Nout] = 0
 
-    # max scan statistic over all windows
-    tscan = max(tobs)
-    # observed test statistics, split by centroid in order 
-    # of successive windows
-    tobs_split = split(tobs, fac)
+    tobs = 
+      spscan.stat(
+        N = N,
+        N1 = N1,
+        Nin = Nin,
+        Nout = Nout,
+        N1in = smerc::nn.cumsum(mynn, z), 
+        const = const)
     
-    # position of most likely cluster centered at each centroid
-    tmax_pos = lapply(tobs_split, which.max)
+    # determine non-overlapping windows in decreasing
+    # order of test statistic
+    tobs_nn <- split(tobs, f = fac)
+    noc_info <- smerc::noc_nn(mynn, tobs_nn)
+    tobs <- noc_info$tobs
     
-    # determine the farthest neighbor of each centroid for
-    # which the maximum scan statistic occurs for that centroid
-    max_nn = mapply(function(a, b) a[b], a = mynn, b = tmax_pos)
-    # index of the the windows where the max statistic occurs for each centroid
-    # in the vector of all scan statistics
-    tmax_idx = cumsum(c(0, nnn[-N])) + unlist(tmax_pos)
-    
-    # value of statistic for most likely cluster centered at each centroid
-    tmax = lapply(tobs_split, max, na.rm = TRUE)
-    
-    # p-values associated with these max statistics for each centroid
-    pvalue = unname(sapply(tmax, function(x) (sum(tsim >= x) + 1)/(nsim + 1)))
-    
-    # determine which potential clusters are significant
-    sigc = which(pvalue <= alpha, useNames = FALSE)
-    
-    # if there are no significant clusters, return most likely cluster
-    if (length(sigc) == 0) {
-      sigc = which.max(tmax)
-      warning("No significant clusters.  Returning most likely cluster.")
+    if (nsim > 0) {
+      tsim = spscan.sim(nsim = nsim, nnlist = mynn,
+                        N = N, N1 = N1,
+                        Nin = Nin, Nout = Nout,
+                        const = const, cl = cl)
+      pvalue = smerc::mc.pvalue(tobs, tsim)
+    } else {
+      pvalue = rep(1, length(tobs))
     }
-    
-    # which statistics are significant
-    sig_tscan = unlist(tmax, use.names = FALSE)[sigc]
-    # order statistics from smallest to largest
-    o_sig = order(sig_tscan, decreasing = TRUE)
-    # idx of significant clusters in order of significance
-    sigc = sigc[o_sig]
-    
-    # determine the location ids in each significant cluster
-    sig_regions = mapply(function(a, b) mynn[[a]][1:b], a = sigc, b = tmax_pos[sigc], SIMPLIFY = FALSE) 
-    # determine idx of unique non-overlapping clusters
-    u = noc(sig_regions)
-    # return non-overlapping clusters (in order of significance)
-    sig_regions = sig_regions[u]
-    # unique significant clusters (in order of significance)
-    usigc = sigc[u]
-    
-    # for the unique, non-overlapping clusters in order of significance,
-    # find the associated test statistic, p-value, centroid,
-    # window radius, cases in window, expected cases in window, 
-    # population in window, standarized mortality ration, relative risk,
-    sig_tstat = tmax[usigc]
-    sig_p = pvalue[usigc]
-    sig_coords = coords[usigc,, drop = FALSE]
-    # sig_r = diag(SpatialTools::dist2(sig_coords, coords[max_nn[usigc], , drop = FALSE]))
-    sig_r = smerc::gedist(sig_coords, coords[max_nn[usigc], , drop = FALSE], longlat = longlat)#, diagonal = TRUE)
-    sig_popin = (Nin[tmax_idx])[usigc]
-    sig_yin = (N1in[tmax_idx])[usigc]
-    sig_ein = (N1/N)*sig_popin
-    sig_smr = sig_yin/sig_ein
-    sig_rr = (sig_yin/sig_popin)/((N1 - sig_yin)/(N - sig_popin))
-    sig_prop_cases = sig_yin/sig_popin
-    
-    # reformat output for return
-    clusters = vector("list", length(u))
-    for (i in seq_along(clusters)) {
-      clusters[[i]]$locids = sig_regions[[i]]
-      clusters[[i]]$coords = sig_coords[i,, drop = FALSE]
-      clusters[[i]]$r = sig_r[i]
-      clusters[[i]]$pop = sig_popin[i]
-      clusters[[i]]$cases = sig_yin[i]
-      clusters[[i]]$expected = sig_ein[i]
-      clusters[[i]]$smr = sig_smr[i]
-      clusters[[i]]$rr = sig_rr[i]
-      clusters[[i]]$propcases = sig_prop_cases[i]
-      clusters[[i]]$loglikrat = sig_tstat[[i]]
-      clusters[[i]]$pvalue = sig_p[i]
-    }
-    outlist = list(clusters = clusters, ppp = x,
-                   maxd = maxd, method = "circular scan",
-                   alpha = alpha,
-                   longlat = longlat,
-                   nsim = nsim,
-                   total_cases = N1)
-    class(outlist) = "spscan"
-    return(outlist)
+
+    create_spscan(tobs = tobs,
+                  pvalue = pvalue,
+                  alpha = alpha, 
+                  noc_info = noc_info,
+                  coords = coords, z = z,
+                  N = N, N1 = N1,
+                  x = x, d = d, maxd = maxd,
+                  longlat = longlat,
+                  nsim = nsim)
+}
+
+#' Compute spatial scan statistic
+#'
+#' @param N Number of event locations
+#' @param N1 Number of case events
+#' @param Nin Number of event locations in each window
+#' @param Nout Number of event locations outside each window
+#' @param N1in Number of case events in each window
+#' @param const Constant for computing test statistic
+#'
+#' @return A numeric vector of test statistics
+#' @export
+#' @keywords internal
+spscan.stat <- function(N, N1, Nin, Nout, N1in, const) {
+  if (missing(Nout)) {
+    Nout = N - Nin
   }
+  if (missing(const)) {
+    const =  (N1 * log(N1) + (N - N1) * log(N - N1) - N * log(N))
+  }
+  N1out = N1 - N1in
+  N0in = Nin - N1in
+  N0out = Nout - N1out
+
+  ### calculate scan statistics for observed data
+  # calculate all test statistics
+  tobsa = N1in * (log(N1in) - log(Nin))
+  tobsa[which(is.nan(tobsa))] = 0
+  tobsb = N1out * (log(N1out) - log(Nout))
+  tobsb[which(is.nan(tobsb))] = 0
+  tobsc = N0in * (log(N0in) - log(Nin))
+  tobsc[which(is.nan(tobsc))] = 0
+  tobsd = N0out * (log(N0out) - log(Nout))
+  tobsd[which(is.nan(tobsd))] = 0
+  tobs = tobsa + tobsb + tobsc + tobsd - const
+  # correct test statistics for certain cases
+  # incidence proportion in window is smaller than the 
+  # proportion outside window
+  tobs[N1in/Nin <= N1out/Nout] = 0
+  return(tobs)
+}
+
+#' Compute spatial scan statistics for simulated data
+#'
+#' @inheritParams spscan.test
+#' @inheritParams spscan.stat
+#' @param nnlist A list of nearest neighbors from the
+#'   \code{nn} function.
+#' @return A vector of maximum test statistics
+#' @export
+#' @keywords internal
+spscan.sim = function(nsim, nnlist, N, N1, Nin, Nout, const, cl) {
+  # determine whether to parallelize results
+  pbapply::pbvapply(seq_len(nsim), function(i) {
+  
+  # create vector of zeros with 1 in the case positions
+  z = numeric(N)
+  z[sample(1:N, N1)] = 1
+  # for each element of the nn list,
+  # cumulate the number of cases inside the successive window
+  tall = 
+    spscan.stat(
+      N = N,
+      N1 = N1,
+      Nin = Nin,
+      Nout = Nout,
+      N1in = smerc::nn.cumsum(nnlist, z), 
+      const = const)
+  
+  # return max of statistics for simulation
+  return(max(tall))
+  }, FUN.VALUE = numeric(1), USE.NAMES = FALSE, cl = cl)
+}
+
+#' Create spscan object
+#'
+#' @inheritParams spscan.test
+#' @inheritParams spscan.stat
+#' @param noc_info An object from the
+#'   \code{\link[smerc]{noc_nn}} function.
+#' @param z An indicator vector indicating which
+#'   observations are cases.
+#' @param tobs The vector of observed test statistics in
+#'   descending order for non-overlapping windows.
+#' @param pvalue The pvalues associated with \code{tobs}.
+#' @param d A matrix of intercentroid distances for the
+#'   event locations.
+#'
+#' @return An \code{spscan} object.
+#' @export
+#' @keywords internal
+create_spscan = function(tobs, pvalue, alpha, noc_info,
+                         coords, z,
+                         N, N1, 
+                         x, d, maxd,
+                         longlat, 
+                         nsim) {
+  # determine which potential clusters are significant
+  usigc = which(pvalue <= alpha, useNames = FALSE)
+  
+  # if there are no significant clusters, return most likely cluster
+  if (length(usigc) == 0) {
+    usigc = 1
+    warning("No significant clusters.  Returning most likely cluster.")
+  }
+  
+  # for the unique, non-overlapping clusters in order of significance,
+  # find the associated test statistic, p-value, centroid,
+  # window radius, cases in window, expected cases in window, 
+  # population in window, standarized mortality ratio, relative risk,
+  sig_tstat = tobs[usigc]
+  sig_p = pvalue[usigc]
+  sig_clusts = noc_info$clusts[usigc]
+  start_region = unlist(lapply(sig_clusts, utils::head, n = 1),
+                        use.names = FALSE)
+  end_region = unlist(lapply(sig_clusts, utils::tail, n = 1),
+                      use.names = FALSE)
+  sig_coords = coords[start_region,, drop = FALSE]
+  
+  sig_r = d[cbind(start_region, end_region)]
+  sig_popin = sapply(sig_clusts, length)
+  sig_yin = smerc::zones.sum(sig_clusts, z)
+  sig_ein = (N1/N)*sig_popin
+  sig_smr = sig_yin/sig_ein
+  sig_rr = (sig_yin/sig_popin)/((N1 - sig_yin)/(N - sig_popin))
+  sig_prop_cases = sig_yin/sig_popin
+  
+  # reformat output for return
+  clusters = vector("list", length(sig_clusts))
+  for (i in seq_along(clusters)) {
+    clusters[[i]]$locids = sig_clusts[[i]]
+    clusters[[i]]$coords = sig_coords[i,, drop = FALSE]
+    clusters[[i]]$r = sig_r[i]
+    clusters[[i]]$pop = sig_popin[i]
+    clusters[[i]]$cases = sig_yin[i]
+    clusters[[i]]$expected = sig_ein[i]
+    clusters[[i]]$smr = sig_smr[i]
+    clusters[[i]]$rr = sig_rr[i]
+    clusters[[i]]$propcases = sig_prop_cases[i]
+    clusters[[i]]$loglikrat = sig_tstat[[i]]
+    clusters[[i]]$pvalue = sig_p[i]
+  }
+  outlist = list(clusters = clusters, ppp = x,
+                 maxd = maxd, method = "circular scan",
+                 alpha = alpha,
+                 longlat = longlat,
+                 nsim = nsim,
+                 total_cases = N1)
+  class(outlist) = "spscan"
+  return(outlist)
+}

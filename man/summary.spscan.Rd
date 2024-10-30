@@ -9,11 +9,7 @@
 \arguments{
 \item{object}{An \code{spscan} object.}
 
-\item{...}{
-  Arguments passed on to \code{\link[base:summary]{base::summary}}, \code{\link[base:summary]{base::summary}}
-  \describe{
-    \item{\code{}}{}
-  }}
+\item{...}{Additional arguments affecting the summary produced.}
 
 \item{idx}{An index vector indicating the elements of \code{object$clusters}
 to print information for. The default is all clusters.}

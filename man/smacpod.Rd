@@ -2,8 +2,8 @@
 % Please edit documentation in R/smacpod-package.R
 \docType{package}
 \name{smacpod}
-\alias{smacpod}
 \alias{smacpod-package}
+\alias{smacpod}
 \title{smacpod}
 \description{
 *S*tatistical *M*thods for the *A*nalysis of *C*ase-control *Po*int *D*ata

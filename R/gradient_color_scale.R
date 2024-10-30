@@ -7,7 +7,7 @@
 #' @param mid The color used for the midpoint of the gradient
 #' @param high The color used for the high values
 #' @param midpoint The midpoint of the color scale
-#' @inheritDotParams grDevices::colorRamp
+#' @param ... Arguments passed to \code{\link[grDevices:colorRamp]{grDevices::colorRamp}}
 #'
 #' @return A list with \code{col} and \code{breaks} components specifying the colors and breaks of the color scale.
 #' @export

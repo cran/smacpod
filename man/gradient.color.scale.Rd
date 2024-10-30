@@ -30,20 +30,7 @@ gradient.color.scale(
 
 \item{midpoint}{The midpoint of the color scale}
 
-\item{...}{
-  Arguments passed on to \code{\link[grDevices:colorRamp]{grDevices::colorRamp}}
-  \describe{
-    \item{\code{colors}}{colors to interpolate; must be a valid argument to
-    \code{\link[grDevices]{col2rgb}()}.}
-    \item{\code{bias}}{a positive number.  Higher values give more widely spaced
-    colors at the high end.}
-    \item{\code{space}}{a character string; interpolation in RGB or CIE Lab
-    color spaces.}
-    \item{\code{interpolate}}{use spline or linear interpolation.}
-    \item{\code{alpha}}{logical: should alpha channel (opacity) values be
-    returned?   It is an error to give a true value if
-    \code{space} is specified.}
-  }}
+\item{...}{Arguments passed to \code{\link[grDevices:colorRamp]{grDevices::colorRamp}}}
 }
 \value{
 A list with \code{col} and \code{breaks} components specifying the colors and breaks of the color scale.

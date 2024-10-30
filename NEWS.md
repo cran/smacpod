@@ -22,3 +22,5 @@
 # 2.6
 - Remove dependency on sp package.
 - Fix bug in print function of kdenv_summary.
+- Fix bug in spscan.test related to radius of window.
+- Refactor spscan.test to create cleaner, simpler function that uses several helper functions.

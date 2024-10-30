@@ -33,11 +33,7 @@ spdensity(
     or a function that computes an appropriate value of \code{sigma}.
   }
 
-\item{...}{
-    Additional arguments passed to \code{\link{pixellate.ppp}}
-    and \code{\link{as.mask}} to determine
-    the pixel resolution, or passed to \code{sigma} if it is a function.
-  }
+\item{...}{Additional arguments passed to \code{\link[spatstat.explore]{density.ppp}}.}
 
 \item{weights}{
     Optional weights to be attached to the points.

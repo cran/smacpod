@@ -9,11 +9,7 @@
 \arguments{
 \item{x}{An object of class \code{spscan}.}
 
-\item{...}{
-  Arguments passed on to \code{\link[base:print]{base::print}}
-  \describe{
-    \item{\code{}}{}
-  }}
+\item{...}{Additional arguments affecting the summary produced.}
 
 \item{extra}{A logical value. Default is \code{FALSE}.
 \code{TRUE} indicates that extra information should be

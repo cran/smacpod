@@ -3,7 +3,7 @@
 #' Summarize object of class \code{scan} from \code{\link{spscan.test}}.
 #'
 #' @param object An object of class \code{spscan}.
-#' @inheritDotParams base::summary
+#' @param ... Additional arguments affecting the summary produced.
 #' @param idx An index vector indicating the elements of \code{object$clusters}
 #'   to print information for. The default is all clusters.
 #' @param digits Integer indicating the number of decimal places.
@@ -17,7 +17,7 @@
 #'   statistic, and the associated p-value.
 #'
 #' @param object An \code{spscan} object.
-#' @inheritDotParams base::summary
+#' @param ... Additional arguments affecting the summary produced.
 #' @export
 #' @examples
 #' data(grave)

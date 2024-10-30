@@ -73,7 +73,8 @@ plot.spscan = function(x, ..., nv = 100, border = NULL,
   
   # plot clusters
   for (i in seq_len(nc)) {
-    plotrix::draw.circle(x$clusters[[i]]$coords[1, 1], x$clusters[[i]]$coords[1, 2], 
+    plotrix::draw.circle(x$clusters[[i]]$coords[1, 1],
+                         x$clusters[[i]]$coords[1, 2], 
                          x$clusters[[i]]$r,
                          nv = nv,
                          border = border[i],

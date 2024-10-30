@@ -70,11 +70,7 @@ default is \code{"pixelwise"}. The other option is
 \code{"simulataneous"}, which controls the tolerance
 level across the entire study area.}
 
-\item{...}{
-    Additional arguments passed to \code{\link{pixellate.ppp}}
-    and \code{\link{as.mask}} to determine
-    the pixel resolution, or passed to \code{sigma} if it is a function.
-  }
+\item{...}{Additional arguments passed to \code{\link[spatstat.explore]{density.ppp}}.}
 
 \item{bwargs}{A list of arguments for the bandwidth
 function supplied to \code{sigma} and \code{sigmacon},
